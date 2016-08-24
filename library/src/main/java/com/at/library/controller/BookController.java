@@ -23,24 +23,24 @@ public class BookController {
 		return bookservice.findAll();
 	}
 	
-	/*@RequestMapping(value="/{id}", method = { RequestMethod.GET })
+	@RequestMapping(value="/{id}", method = { RequestMethod.GET })
 	public BookDTO findOne(@RequestParam("id") Integer id) {
 		return bookservice.findOne(id);
 	}
 	
 	@RequestMapping(method = { RequestMethod.POST })
 	public void create(BookDTO book) {
-		return bookservice.create(book);
+		bookservice.create(book);
 	}
 	
 	@RequestMapping(value="/{id}", method = { RequestMethod.PUT })
 	public void update(@RequestParam("id") Integer id, BookDTO book) {
-		return bookservice.update();
+		bookservice.update(id, book);
 	}
 	
 	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public List<BookDTO> delete(@RequestParam("id") Integer id) {
-		return bookservice.delete();
-	}*/	
+	public void delete(@RequestParam("id") Integer id) {
+		bookservice.delete(id);
+	}
 
 }
