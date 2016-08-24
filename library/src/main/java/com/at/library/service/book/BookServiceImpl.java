@@ -44,4 +44,25 @@ public class BookServiceImpl implements BookService {
 		return dozer.map(book, Book.class);
 	}
 
+	@Override
+	public BookDTO findOne(Integer id) {		
+		return transform(bookDao.findOne(id));
+	}
+
+	@Override
+	public void create(BookDTO book) {
+		bookDao.save(transform(book));		
+	}
+
+	@Override
+	public void update(Integer id, BookDTO book) {
+		bookDao.save(transform(book));
+		
+	}
+
+	@Override
+	public void delete(Integer id) {
+		bookDao.delete(id);		
+	}
+
 }
