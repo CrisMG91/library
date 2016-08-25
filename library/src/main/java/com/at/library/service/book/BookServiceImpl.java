@@ -67,4 +67,29 @@ public class BookServiceImpl implements BookService {
 		bookDao.delete(id);		
 	}
 
+	@Override
+	public BookDTO findByTitle(String title) {
+		final Book b=bookDao.findByTitle(title);
+		return transform(b);		
+	}
+
+	@Override
+	public List<BookDTO> findByAuthor(String author) {		
+		final Iterable<Book> findByAuthor = bookDao.findByAuthor(author);
+		final Iterator<Book> iterator = findByAuthor.iterator();
+		final List<BookDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final Book b = iterator.next();
+			final BookDTO bDTO = transform(b);
+			res.add(bDTO);
+		}
+		return res;	
+	}
+
+	@Override
+	public BookDTO findByISBN(String isbn) {
+		final Book b=bookDao.findByIsbn(isbn);
+		return transform(b);			
+	}
+
 }

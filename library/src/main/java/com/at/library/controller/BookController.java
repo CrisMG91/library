@@ -74,5 +74,35 @@ public class BookController {
 		log.debug(String.format("Borrando el libro con id %s", id));
 		bookservice.delete(id);
 	}
+	
+	/**
+	 * Buscar un libro mediante su titulo
+	 * @param title
+	 */
+	@RequestMapping(value="findbytitle/{title}", method = { RequestMethod.GET })
+	public BookDTO findByTitle(@PathVariable("title")String title){
+		log.debug(String.format("Buscando el libro con titulo: %s", title));
+		return bookservice.findByTitle(title);
+	}
+	
+	/**
+	 * Buscar un libro mediante su autor
+	 * @param title
+	 */
+	@RequestMapping(value="findbyauthor/{author}", method = { RequestMethod.GET })
+	public List<BookDTO> findByAuthor(@PathVariable("author")String author){
+		log.debug(String.format("Buscando el libro con autor: %s", author));
+		return bookservice.findByAuthor(author);
+	}
+	
+	/**
+	 * Buscar un libro mediante su ISBN
+	 * @param title
+	 */
+	@RequestMapping(value="findbyisbn/{isbn}", method = { RequestMethod.GET })
+	public BookDTO findByISBN(@PathVariable("isbn")String isbn){
+		log.debug(String.format("Buscando el libro con ISBN: %s", isbn));
+		return bookservice.findByISBN(isbn);
+	}
 
 }

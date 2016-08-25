@@ -57,4 +57,25 @@ public interface BookService {
 	 */
 	void delete(Integer id);
 
+	/**
+	 * Busca un libro dado un titulo
+	 * @param title
+	 * @return
+	 */
+	BookDTO findByTitle(String title);
+
+	/**
+	 * Busca un libro dado un autor
+	 * @param author
+	 * @return
+	 */
+	List<BookDTO> findByAuthor(String author);
+
+	/**
+	 * Busca un libro dado el ISBN
+	 * @param isbn
+	 * @return
+	 */
+	BookDTO findByISBN(String isbn);
+
 }
