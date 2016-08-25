@@ -1,12 +1,9 @@
 package com.at.library.model;
 
 import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class User implements Serializable{
@@ -21,10 +18,9 @@ public class User implements Serializable{
 	
 	private String lastName;
 	
-	private boolean Punished;
+	private String dni;	
 	
-	@OneToMany
-	private List<Rent> rent;
+	private boolean Punished;
 
 	public Integer getId() {
 		return id;
@@ -48,6 +44,14 @@ public class User implements Serializable{
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public boolean isPunished() {

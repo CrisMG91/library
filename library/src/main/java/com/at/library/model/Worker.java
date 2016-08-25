@@ -1,12 +1,10 @@
 package com.at.library.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Worker implements Serializable{
@@ -20,9 +18,6 @@ public class Worker implements Serializable{
 	private String name;
 	
 	private String lastName;
-	
-	@OneToMany
-	private List<Rent> rent;
 
 	public Integer getId() {
 		return id;
