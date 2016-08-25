@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public void delete(Integer id) {
+		userDao.delete(id);	
+	}
+	
+	@Override
 	public UserDTO transform(User user) {
 		return dozer.map(user, UserDTO.class);
 	}
@@ -31,12 +36,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User transform(UserDTO user) {
 		return dozer.map(user, User.class);
-	}
-
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
