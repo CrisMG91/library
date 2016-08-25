@@ -46,18 +46,20 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookDTO findOne(Integer id) {		
-		return transform(bookDao.findOne(id));
+		final Book b=bookDao.findOne(id);
+		return transform(b);
 	}
 
 	@Override
-	public void create(BookDTO book) {
-		bookDao.save(transform(book));		
+	public BookDTO create(BookDTO bookDTO) {
+		final Book book=transform(bookDTO);
+		return transform(bookDao.save(book));		
 	}
 
 	@Override
 	public void update(Integer id, BookDTO book) {
-		bookDao.save(transform(book));
-		
+		final BookDTO b=book;
+		bookDao.save(transform(b));		
 	}
 
 	@Override

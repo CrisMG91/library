@@ -41,7 +41,7 @@ public interface BookService {
 	 * Crea un nuevo libro
 	 * @param book
 	 */
-	void create(BookDTO book);
+	BookDTO create(BookDTO book);
 
 
 	/**
