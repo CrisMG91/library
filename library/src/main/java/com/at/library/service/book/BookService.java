@@ -49,7 +49,7 @@ public interface BookService {
 	 * @param id
 	 * @param book
 	 */
-	void update(Integer id, BookDTO book);
+	void update(BookDTO book);
 
 	/**
 	 * Elimina un libro dado su id

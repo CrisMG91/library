@@ -62,7 +62,7 @@ public class BookController {
 	@RequestMapping(value="/{id}", method =  { RequestMethod.PUT})
 	public void update( @PathVariable("id")Integer id, @RequestBody BookDTO book){
 		log.debug(String.format("Modificando el libro con id %s", id));
-		bookservice.update(id, book);
+		bookservice.update(book);
 	}
 		
 	/**

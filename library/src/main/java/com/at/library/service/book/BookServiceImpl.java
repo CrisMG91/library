@@ -57,7 +57,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void update(Integer id, BookDTO book) {
+	public void update(BookDTO book) {
 		final BookDTO b=book;
 		bookDao.save(transform(b));		
 	}
