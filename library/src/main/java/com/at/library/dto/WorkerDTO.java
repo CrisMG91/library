@@ -1,8 +1,6 @@
 package com.at.library.dto;
 
-import java.io.Serializable;
-
-public class WorkerDTO implements Serializable{
+public class WorkerDTO extends DTO{
 
 	private static final long serialVersionUID = -318703914751207157L;
 
@@ -34,6 +32,11 @@ public class WorkerDTO implements Serializable{
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	@Override
+	public String toString() {
+		return "WorkerDTO [id=" + id + ", name=" + name + ", lastname=" + lastname + "]";
 	}
 	
 }

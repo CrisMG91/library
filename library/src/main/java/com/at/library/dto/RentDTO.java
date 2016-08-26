@@ -1,73 +1,46 @@
 package com.at.library.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.at.library.model.Book;
-import com.at.library.model.RentPK;
-import com.at.library.model.User;
-import com.at.library.model.Worker;
-
-public class RentDTO implements Serializable{
+public class RentDTO extends DTO{
 
 	private static final long serialVersionUID = 7364756623634860483L;
 
-	private RentPK pk;
+	private Integer idLibro;
 	
-	private Worker worker;
+	private Integer idUser;
 	
-	private User user;
+	private Integer idWorker;
 	
-	private Date endDate;
-	
-	public RentPK getPk() {
-		return pk;
+	//No ponemos la fecha pues el preferible añadirla nosotros desde nuestro servidor
+	//private Date initDate;
+	//private Date endDate;
+
+	public Integer getIdLibro() {
+		return idLibro;
 	}
 
-	public void setPk(RentPK pk) {
-		this.pk = pk;
+	public void setIdLibro(Integer idLibro) {
+		this.idLibro = idLibro;
 	}
 
-	public Worker getWorker() {
-		return worker;
+	public Integer getIdUser() {
+		return idUser;
 	}
 
-	public void setWorker(Worker worker) {
-		this.worker = worker;
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getIdWorker() {
+		return idWorker;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setIdWorker(Integer idWorker) {
+		this.idWorker = idWorker;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Book getBook(){
-		return pk.getBook();
+	@Override
+	public String toString() {
+		return "RentDTO [idLibro=" + idLibro + ", idUser=" + idUser + ", idWorker=" + idWorker + "]";
 	}
 	
-	public void setBook(Book book){
-		pk.setBook(book);
-	}
-	
-	public Date getInitDate(){
-		return pk.getInitDate();
-	}
-	
-	public void setInitDate(Date initDate){
-		pk.setInitDate(initDate);
-	}
-	
-	
-
 }

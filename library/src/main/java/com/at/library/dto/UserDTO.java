@@ -1,8 +1,6 @@
 package com.at.library.dto;
 
-import java.io.Serializable;
-
-public class UserDTO implements Serializable{
+public class UserDTO extends DTO{
 
 	private static final long serialVersionUID = 8251722573505260615L;
 
@@ -54,6 +52,12 @@ public class UserDTO implements Serializable{
 
 	public void setPunished(boolean punished) {
 		Punished = punished;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", name=" + name + ", lastName=" + lastName + ", dni=" + dni + ", Punished="
+				+ Punished + "]";
 	}
 	
 }
