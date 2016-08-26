@@ -78,4 +78,16 @@ public interface BookService {
 	 */
 	BookDTO findByISBN(String isbn);
 
+	/**
+	 * Da de baja un libro
+	 * @param id
+	 */
+	void disableBook(Integer id);
+
+	/**
+	 * Dando de alta un libro
+	 * @param id
+	 */
+	void enableBook(Integer id);
+
 }
