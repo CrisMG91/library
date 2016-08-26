@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.at.library.dao.UserDao;
 import com.at.library.dto.UserDTO;
+import com.at.library.enums.StatusEnum;
 import com.at.library.model.User;
 
 @Service
@@ -36,6 +37,22 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User transform(UserDTO user) {
 		return dozer.map(user, User.class);
+	}
+
+	@Override
+	public void disable(Integer id) {
+		User b = userDao.findOne(id);
+		b.setStatus(StatusEnum.DISABLE);
+					
+		userDao.save(b);			
+	}
+
+	@Override
+	public void enable(Integer id) {
+		User b = userDao.findOne(id);
+		b.setStatus(StatusEnum.ACTIVE);
+					
+		userDao.save(b);
 	}
 
 }

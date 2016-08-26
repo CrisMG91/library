@@ -32,4 +32,16 @@ public interface UserService {
 	 */
 	User transform(UserDTO user);
 
+	/**
+	 * Da de baja un usuario
+	 * @param id
+	 */
+	void disable(Integer id);
+
+	/**
+	 * Da de alta un usuario
+	 * @param id
+	 */
+	void enable(Integer id);
+
 }

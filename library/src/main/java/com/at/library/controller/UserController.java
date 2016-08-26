@@ -41,5 +41,25 @@ public class UserController {
 		log.debug(String.format("Borrando al usuario con id %s", id));
 		userService.delete(id);
 	}
+	
+	/**
+	 * Dar de baja un usuario
+	 * @param id
+	 */
+	@RequestMapping(value="/disable/{id}", method =  { RequestMethod.PUT})
+	public void disable( @PathVariable("id")Integer id){
+		log.debug(String.format("Dando de baja el usuario con id %s", id));
+		userService.disable(id);
+	}
+	
+	/**
+	 * Dar de alta un usuario
+	 * @param id
+	 */
+	@RequestMapping(value="/enable/{id}", method =  { RequestMethod.PUT})
+	public void enable( @PathVariable("id")Integer id){
+		log.debug(String.format("Dando de alta el usuario con id %s", id));
+		userService.enable(id);
+	}
 
 }
