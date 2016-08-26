@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.at.library.enums.StatusEnum;
+
 @Entity
 public class User implements Serializable{
 
@@ -21,6 +23,8 @@ public class User implements Serializable{
 	private String dni;	
 	
 	private boolean Punished;
+	
+	private StatusEnum status;
 
 	public Integer getId() {
 		return id;
@@ -60,6 +64,14 @@ public class User implements Serializable{
 
 	public void setPunished(boolean punished) {
 		Punished = punished;
+	}
+
+	public StatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEnum status) {
+		this.status = status;
 	}
 
 }
