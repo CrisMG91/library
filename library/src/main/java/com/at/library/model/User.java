@@ -2,6 +2,8 @@ package com.at.library.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -24,6 +26,7 @@ public class User implements Serializable{
 	
 	private boolean Punished;
 	
+	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
 
 	public Integer getId() {
