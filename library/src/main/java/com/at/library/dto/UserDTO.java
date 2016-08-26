@@ -1,5 +1,7 @@
 package com.at.library.dto;
 
+import com.at.library.enums.StatusEnum;
+
 public class UserDTO extends DTO{
 
 	private static final long serialVersionUID = 8251722573505260615L;
@@ -14,6 +16,8 @@ public class UserDTO extends DTO{
 	
 	private boolean Punished;
 
+	private StatusEnum status;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -54,10 +58,18 @@ public class UserDTO extends DTO{
 		Punished = punished;
 	}
 
+	public StatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEnum status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", name=" + name + ", lastName=" + lastName + ", dni=" + dni + ", Punished="
-				+ Punished + "]";
+				+ Punished + ", status=" + status + "]";
 	}
 	
 }
