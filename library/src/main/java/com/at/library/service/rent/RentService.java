@@ -25,6 +25,12 @@ public interface RentService {
 	 * @return
 	 */
 	Rent transform(RentDTO rentDTO);
-		
+
+	/**
+	 * Devuelve un libro
+	 * @param id
+	 * @return
+	 */
+	void returnBook(Integer id);		
 	
 }

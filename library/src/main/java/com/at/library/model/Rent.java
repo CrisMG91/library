@@ -36,6 +36,14 @@ public class Rent implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
+	public RentPK getPk() {
+		return pk;
+	}
+
+	public void setPk(RentPK pk) {
+		this.pk = pk;
+	}
+
 	@Transient
 	public Book getBook(){
 		return pk.getBook();

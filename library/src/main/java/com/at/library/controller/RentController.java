@@ -3,6 +3,7 @@ package com.at.library.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,5 +30,16 @@ public class RentController {
 	public RentDTO rentBook(@RequestBody RentDTO rentDTO) {
 		log.debug(String.format("Alquilando un libro:", rentDTO));
 		return rentService.rentBook(rentDTO) ;
+	}
+	
+	/**
+	 * Devuelve un libro un libro
+	 * @param rentDTO
+	 * @return
+	 */
+	@RequestMapping(value="/{id}", method =  { RequestMethod.PUT})
+	public void returnBook(@PathVariable("id")Integer id) {
+		log.debug(String.format("Devolviendo el libro:", id));
+		rentService.returnBook(id) ;
 	}
 }
