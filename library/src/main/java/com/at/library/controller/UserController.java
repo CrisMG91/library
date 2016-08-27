@@ -61,5 +61,15 @@ public class UserController {
 		log.debug(String.format("Dando de alta el usuario con id %s", id));
 		userService.enable(id);
 	}
+	
+	/**
+	 * Cambiar catigo usuario
+	 * @param id
+	 */
+	@RequestMapping(value="/punished/{id}", method =  { RequestMethod.PUT})
+	public void changePunishment( @PathVariable("id")Integer id){
+		log.debug(String.format("Cambiando castigo al usuario con id %s", id));
+		userService.changePunishment(id);
+	}
 
 }

@@ -44,4 +44,17 @@ public interface UserService {
 	 */
 	void enable(Integer id);
 
+	/**
+	 * Busca un usuario segun su id
+	 * @param idUser
+	 * @return 
+	 */
+	UserDTO findOne(Integer idUser);
+
+	/**
+	 * Cambia el estado de castigo de un usuario
+	 * @param id
+	 */
+	void changePunishment(Integer id);
+
 }

@@ -61,7 +61,7 @@ public class User implements Serializable{
 		this.dni = dni;
 	}
 
-	public boolean isPunished() {
+	public boolean getPunished() {
 		return Punished;
 	}
 

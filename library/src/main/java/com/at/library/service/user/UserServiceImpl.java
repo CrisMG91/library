@@ -41,18 +41,35 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void disable(Integer id) {
-		User b = userDao.findOne(id);
-		b.setStatus(StatusEnum.DISABLE);
+		User u = userDao.findOne(id);
+		u.setStatus(StatusEnum.DISABLE);
 					
-		userDao.save(b);			
+		userDao.save(u);			
 	}
 
 	@Override
 	public void enable(Integer id) {
-		User b = userDao.findOne(id);
-		b.setStatus(StatusEnum.ACTIVE);
+		User u = userDao.findOne(id);
+		u.setStatus(StatusEnum.ACTIVE);
 					
-		userDao.save(b);
+		userDao.save(u);
+	}
+
+	@Override
+	public UserDTO findOne(Integer idUser) {
+		final User u = userDao.findOne(idUser);
+		return transform(u);
+	}
+
+	@Override
+	public void changePunishment(Integer id) {
+		User u = userDao.findOne(id);
+		if(u.getPunished())
+			u.setPunished(false);
+		else
+			u.setPunished(true);
+					
+		userDao.save(u);		
 	}
 
 }
