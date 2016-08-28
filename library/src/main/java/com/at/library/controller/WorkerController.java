@@ -2,13 +2,15 @@ package com.at.library.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.at.library.dto.BookDTO;
 import com.at.library.dto.WorkerDTO;
 import com.at.library.service.worker.WorkerService;
 
@@ -19,28 +21,37 @@ public class WorkerController {
 	@Autowired
 	private WorkerService workerService;
 	
+	private static final Logger log = LoggerFactory.getLogger(BookController.class);
+	
+	/**
+	 * Busca todos los trabajadores
+	 * @return
+	 */
 	@RequestMapping(method = { RequestMethod.GET })
 	public List<WorkerDTO> getAll() {
 		return workerService.findAll();
 	}
 	
-	@RequestMapping(value="/{id}", method = { RequestMethod.GET })
-	public WorkerDTO findOne(@RequestParam("id") Integer id) {
+	/**
+	 * Devuelve un trabajador segun su id
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
+	public WorkerDTO findOne(@PathVariable("id")Integer id){
+		log.debug(String.format("Buscando el trabajador con el id %s", id));
 		return workerService.findOne(id);
 	}
 	
-	@RequestMapping(method = { RequestMethod.POST })
-	public void create(WorkerDTO worker) {
-		workerService.create(worker);
+	/**
+	 * Crea un trabajador
+	 * @param workerDTO
+	 * @return
+	 */
+	@RequestMapping( method = { RequestMethod.POST })
+	public WorkerDTO create(@RequestBody WorkerDTO workerDTO) {
+		log.debug(String.format("Creando el trabajador:", workerDTO));
+		return workerService.create(workerDTO) ;
 	}
 	
-	@RequestMapping(value="/{id}", method = { RequestMethod.PUT })
-	public void update(@RequestParam("id") Integer id, WorkerDTO worker) {
-		workerService.update(id, worker);
-	}
-	
-	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@RequestParam("id") Integer id) {
-		workerService.delete(id);
-	}
 }

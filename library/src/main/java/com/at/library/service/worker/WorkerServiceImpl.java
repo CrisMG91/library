@@ -36,24 +36,14 @@ public class WorkerServiceImpl implements WorkerService{
 
 	@Override
 	public WorkerDTO findOne(Integer id) {
-		return transform(workerDao.findOne(id));
+		final Worker w = workerDao.findOne(id);
+		return transform(w);
 	}
 
 	@Override
-	public void create(WorkerDTO worker) {
-		workerDao.save(transform(worker));
-		
-	}
-
-	@Override
-	public void update(Integer id, WorkerDTO worker) {
-		workerDao.save(transform(worker));		
-	}
-
-	@Override
-	public void delete(Integer id) {
-		workerDao.delete(id);
-		
+	public WorkerDTO create(WorkerDTO workerDTO) {
+		final Worker worker=transform(workerDTO);
+		return transform(workerDao.save(worker));			
 	}
 
 	@Override
@@ -62,8 +52,8 @@ public class WorkerServiceImpl implements WorkerService{
 	}
 
 	@Override
-	public Worker transform(WorkerDTO worker) {
-		return dozer.map(worker, Worker.class);
+	public Worker transform(WorkerDTO workerDTO) {
+		return dozer.map(workerDTO, Worker.class);
 	}
 
 }

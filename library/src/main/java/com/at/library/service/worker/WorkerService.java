@@ -26,21 +26,7 @@ public interface WorkerService {
 	 * @param worker
 	 * @return 
 	 */
-	void create(WorkerDTO worker);
-
-	/**
-	 * Modifica un trabajador
-	 * @param id
-	 * @param worker
-	 */
-	void update(Integer id, WorkerDTO worker);
-
-	/**
-	 * Borra un trabajador
-	 * @param id
-	 */
-	void delete(Integer id);
-	
+	WorkerDTO create(WorkerDTO workerDTO);
 	
 	/**
 	 * Transforma un worker en un workerDTO
@@ -56,6 +42,6 @@ public interface WorkerService {
 	 * @param worker
 	 * @return
 	 */
-	Worker transform(WorkerDTO worker);	
+	Worker transform(WorkerDTO workerDTO);	
 
 }
