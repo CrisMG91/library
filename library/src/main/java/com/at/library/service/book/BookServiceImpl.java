@@ -54,6 +54,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookDTO create(BookDTO bookDTO) {
 		final Book book=transform(bookDTO);
+		book.setStatus(StatusEnum.ACTIVE);
 		return transform(bookDao.save(book));		
 	}
 
