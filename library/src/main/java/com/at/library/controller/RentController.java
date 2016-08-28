@@ -27,7 +27,7 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping( method = { RequestMethod.POST })
-	public RentDTO rentBook(@RequestBody RentDTO rentDTO) {
+	public boolean rentBook(@RequestBody RentDTO rentDTO) {
 		log.debug(String.format("Alquilando un libro:", rentDTO));
 		return rentService.rentBook(rentDTO) ;
 	}

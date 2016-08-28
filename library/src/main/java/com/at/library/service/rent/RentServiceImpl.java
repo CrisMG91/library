@@ -34,22 +34,29 @@ public class RentServiceImpl implements RentService{
 	private DozerBeanMapper dozer;
 	
 	@Override
-	public RentDTO rentBook(RentDTO rentDTO) {
+	public boolean rentBook(RentDTO rentDTO) {	
+		boolean resp = false;
 		final Book b = bookService.transform(bookService.findOne(rentDTO.getIdLibro()));
 		final User u = userService.transform(userService.findOne(rentDTO.getIdUser()));
 		final Worker w = workerService.transform(workerService.findOne(rentDTO.getIdWorker()));
-		Rent rent = new Rent();
-		RentPK pk = new RentPK();
 		
-		pk.setBook(b);
-		pk.setInitDate(new java.util.Date());
+		if(bookService.availableBook(b.getId()) && !u.getPunished()){			
+			Rent rent = new Rent();
+			RentPK pk = new RentPK();
+			
+			pk.setBook(b);
+			pk.setInitDate(new java.util.Date());
+			
+			rent.setPk(pk);
+			rent.setUser(u);
+			rent.setWorker(w);
+			rent.setEndDate(null);
+			
+			transform(rentDao.save(rent));
+			resp = true;
+		}
 		
-		rent.setPk(pk);
-		rent.setUser(u);
-		rent.setWorker(w);
-		rent.setEndDate(null);
-		
-		return transform(rentDao.save(rent));
+		return resp;
 	}
 	
 	@Override

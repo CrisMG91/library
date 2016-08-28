@@ -8,9 +8,9 @@ public interface RentService {
 	/**
 	 * Alquila un libro
 	 * @param rentDTO
-	 * @return
+	 * @return boolean
 	 */
-	RentDTO rentBook(RentDTO rentDTO);
+	boolean rentBook(RentDTO rentDTO);
 	
 	/**
 	 * Tranforma un Rent en RentDTO 
