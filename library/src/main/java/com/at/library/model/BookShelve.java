@@ -39,5 +39,13 @@ public class BookShelve implements Serializable{
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
 	
 }
