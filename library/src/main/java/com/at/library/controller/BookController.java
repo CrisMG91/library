@@ -124,5 +124,27 @@ public class BookController {
 		log.debug(String.format("Buscando el libro con ISBN: %s", isbn));
 		return bookservice.findByISBN(isbn);
 	}
+	
+	/**
+	 * Comprueba si un libro esta disponible
+	 * @param book
+	 * @return
+	 */
+	@RequestMapping(value="availablebook/{id}", method =  { RequestMethod.GET})
+	public boolean availableBook(@PathVariable("id")Integer id){
+		log.debug(String.format("Comprobando la disponibilidad del libro: %s", id));
+		return bookservice.availableBook(id);
+	}
+	
+	/**
+	 * Devuelve los libros alquilados
+	 * @return
+	 */
+	@RequestMapping(value="/unavailablebook", method =  { RequestMethod.GET})
+	public List<BookDTO> findUnAvailable(){
+		log.debug(String.format("Libros disponibles"));
+		return bookservice.findUnAvailable();
+	}
+
 
 }

@@ -109,4 +109,18 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(b);		
 	}
 
+	@Override
+	public boolean availableBook(Integer id) {
+		if(bookDao.availableBook(id) == null)
+			return true;
+		else return false;
+	}
+
+	@Override
+	public List<BookDTO> findUnAvailable() {
+		return bookDao.findUnAvailable();
+	}
+	
+	
+
 }

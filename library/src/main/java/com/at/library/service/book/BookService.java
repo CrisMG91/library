@@ -90,4 +90,17 @@ public interface BookService {
 	 */
 	void enableBook(Integer id);
 
+	/**
+	 * Comprueba si un libro esta disponible
+	 * @param id
+	 * @return
+	 */
+	boolean availableBook(Integer id);
+	
+	/**
+	 * Devuelve el listado de libros alquilados
+	 * @return
+	 */
+	List<BookDTO> findUnAvailable();
+
 }
