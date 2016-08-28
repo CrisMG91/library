@@ -31,6 +31,6 @@ public interface RentService {
 	 * @param id
 	 * @return
 	 */
-	void returnBook(Integer id);		
+	void returnBook(Integer id);	
 	
 }

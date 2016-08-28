@@ -36,6 +36,23 @@ public class Rent implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
+	public Rent(){}
+	
+	public Rent(Integer idUser, Integer idWorker, Date initDate){
+		User u = new User();
+		u.setId(idUser);
+		
+		Worker w = new Worker();
+		w.setId(idWorker);
+		
+		RentPK rentPK = new RentPK();
+		rentPK.setInitDate(initDate);
+		
+		this.user = u;
+		this.pk = rentPK;	
+		this.worker = w;
+	}
+	
 	public RentPK getPk() {
 		return pk;
 	}
