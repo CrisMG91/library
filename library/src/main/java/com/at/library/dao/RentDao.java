@@ -9,6 +9,6 @@ import com.at.library.model.Rent;
 @Repository
 public interface RentDao extends CrudRepository<Rent, Integer>{
 	
-	@Query(value = "SELECT new Rent(r.user.id, r.worker.id, r.pk.initDate)  FROM Rent AS r WHERE r.pk.book.id = ?1 AND r.endDate IS null)")
+	@Query(value = "SELECT new Rent(r.user, r.worker, r.pk)  FROM Rent AS r WHERE r.pk.book.id = ?1 AND r.endDate IS null)")
 	public Rent returnBook(Integer idBook);
 }

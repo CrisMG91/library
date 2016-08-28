@@ -38,19 +38,10 @@ public class Rent implements Serializable{
 	
 	public Rent(){}
 	
-	public Rent(Integer idUser, Integer idWorker, Date initDate){
-		User u = new User();
-		u.setId(idUser);
-		
-		Worker w = new Worker();
-		w.setId(idWorker);
-		
-		RentPK rentPK = new RentPK();
-		rentPK.setInitDate(initDate);
-		
-		this.user = u;
-		this.pk = rentPK;	
-		this.worker = w;
+	public Rent(User user, Worker worker, RentPK pk){		
+		this.user = user;
+		this.pk = pk;	
+		this.worker = worker;
 	}
 	
 	public RentPK getPk() {
