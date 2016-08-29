@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.service.user.UserService;
 
@@ -119,13 +120,18 @@ public class UserController {
 	}
 	
 	/**
-	 * Cambiar catigo usuario
+	 * Cambiar castigo usuario
 	 * @param id
 	 */
 	@RequestMapping(value="/punished/{id}", method =  { RequestMethod.DELETE})
 	public void changePunishment( @PathVariable("id")Integer id){
 		log.debug(String.format("Cambiando castigo al usuario con id %s", id));
 		userService.changePunishment(id);
+	}
+	
+	@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
+	public List<UserBookRentDTO> getAllRent(@PathVariable("id")Integer idUser) {
+		return userService.getAllRent(idUser);
 	}
 
 }
