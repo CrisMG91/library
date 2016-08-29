@@ -1,5 +1,7 @@
 package com.at.library.service.user;
 
+import java.util.List;
+
 import com.at.library.dto.UserDTO;
 import com.at.library.model.User;
 
@@ -45,11 +47,45 @@ public interface UserService {
 	void enable(Integer id);
 
 	/**
+	 * Busca todos los usuarios
+	 * @return
+	 */
+	public List<UserDTO> findAll();
+	
+	/**
 	 * Busca un usuario segun su id
 	 * @param idUser
 	 * @return 
 	 */
 	UserDTO findOne(Integer idUser);
+	
+	/**
+	 * Busca los usuarios llamados como name
+	 * @param name
+	 * @return
+	 */
+	List<UserDTO> findByName(String name);
+	
+	/**
+	 * Busca un usuario segun su dni
+	 * @param dni
+	 * @return
+	 */
+	UserDTO findByDNI(String dni);
+	
+	/**
+	 * Usuarios Activos
+	 * @param status
+	 * @return
+	 */
+	List<UserDTO> findByStatus ();
+	
+	/**
+	 * Usuarios castigados
+	 * @param punish
+	 * @return
+	 */
+	List<UserDTO> findByPunished ();
 
 	/**
 	 * Cambia el estado de castigo de un usuario

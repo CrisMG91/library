@@ -1,8 +1,10 @@
 package com.at.library.service.user;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
@@ -113,6 +115,64 @@ public class UserServiceImpl implements UserService{
 			u.setPunished(true);
 					
 		userDao.save(u);		
+	}
+
+	@Override
+	public List<UserDTO> findAll() {
+		final Iterable<User> findAll = userDao.findAll();
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
+		}
+		return res;
+	}
+
+	@Override
+	public List<UserDTO> findByName(String name) {
+		final Iterable<User> findAll = userDao.findByName(name);
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
+		}
+		return res;		
+	}
+
+	@Override
+	public UserDTO findByDNI(String dni) {
+		final User u = userDao.findByDni(dni);
+		return transform(u);
+	}
+
+	@Override
+	public List<UserDTO> findByStatus() {
+		final Iterable<User> findAll = userDao.findByStatus(StatusEnum.ACTIVE);
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
+		}
+		return res;		
+	}
+
+	@Override
+	public List<UserDTO> findByPunished() {
+		final Iterable<User> findAll = userDao.findByPunished(1);
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
+		}
+		return res;	
 	}
 
 }
