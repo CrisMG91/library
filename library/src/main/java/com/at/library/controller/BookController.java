@@ -69,7 +69,7 @@ public class BookController {
 	 * Dar de baja un libro
 	 * @param id
 	 */
-	@RequestMapping(value="/disable/{id}", method =  { RequestMethod.PUT})
+	@RequestMapping(value="/disable/{id}", method =  { RequestMethod.DELETE})
 	public void disable( @PathVariable("id")Integer id){
 		log.debug(String.format("Dando de baja el libro con id %s", id));
 		bookservice.disableBook(id);
@@ -79,7 +79,7 @@ public class BookController {
 	 * Dar de alta un libro
 	 * @param id
 	 */
-	@RequestMapping(value="/enable/{id}", method =  { RequestMethod.PUT})
+	@RequestMapping(value="/enable/{id}", method =  { RequestMethod.DELETE})
 	public void enable( @PathVariable("id")Integer id){
 		log.debug(String.format("Dando de alta el libro con id %s", id));
 		bookservice.enableBook(id);

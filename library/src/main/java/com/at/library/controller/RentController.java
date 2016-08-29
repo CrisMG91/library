@@ -27,7 +27,7 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping( method = { RequestMethod.POST })
-	public boolean rentBook(@RequestBody RentDTO rentDTO) {
+	public boolean rentBook(@RequestBody RentDTO rentDTO) /*throws BookRentedException*/{
 		log.debug(String.format("Alquilando un libro:", rentDTO));
 		return rentService.rentBook(rentDTO) ;
 	}
@@ -37,7 +37,7 @@ public class RentController {
 	 * @param rentDTO
 	 * @return
 	 */
-	@RequestMapping(value="/{id}", method =  { RequestMethod.PUT})
+	@RequestMapping(value="/{id}", method =  { RequestMethod.DELETE})
 	public void returnBook(@PathVariable("id")Integer id) {
 		log.debug(String.format("Devolviendo el libro:", id));
 		rentService.returnBook(id) ;

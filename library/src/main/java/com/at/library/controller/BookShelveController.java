@@ -15,7 +15,7 @@ import com.at.library.dto.BookShelveDTO;
 import com.at.library.service.bookShelve.BookShelveService;
 
 @RestController
-@RequestMapping(value = "/room")
+@RequestMapping(value = "/bookshelve")
 public class BookShelveController {
 	
 	@Autowired
