@@ -1,22 +1,65 @@
 package com.at.library.service.user;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.UserDao;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.model.Punishment;
 import com.at.library.model.User;
+import com.at.library.service.punishment.PunishmentService;
 
 @Service
 public class UserServiceImpl implements UserService{
 
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private PunishmentService punishmentService;
 
 	@Autowired
 	private DozerBeanMapper dozer;
+	
+	public Date getDate(Integer days){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new java.util.Date());		
+		calendar.add(Calendar.DAY_OF_YEAR, days); 
+		return calendar.getTime();
+	}
+	
+	@Override
+	@Scheduled(cron = "0 0/1 * * * ?" )
+	public void penalize(){		
+		log.debug("Comienza el proceso de sancion");
+		Iterator<Integer> punish = userDao.punishUser().iterator();
+		while (punish.hasNext()) {
+			Integer idUser = punish.next();
+			this.changePunishment(idUser);
+			
+			Punishment p = new Punishment();
+			p.setId(idUser);
+			p.setEndDay(this.getDate(3));
+			punishmentService.create(p);
+		}
+	}
+	
+	@Override
+	@Scheduled(cron = "0 0/1 * * * ?" )
+	public void forgive(){
+		log.debug("Comienza el proceso de comprobaciones de sanciones");
+	}
 	
 	@Override
 	public UserDTO create(UserDTO userDTO) {

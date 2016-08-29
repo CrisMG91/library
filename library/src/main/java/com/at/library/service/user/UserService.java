@@ -57,4 +57,14 @@ public interface UserService {
 	 */
 	void changePunishment(Integer id);
 
+	/**
+	 * Comprueba los usuarios a sancionar y los penaliza
+	 */
+	void penalize();
+
+	/**
+	 * Comprueba los usuarios que han cumplido la sancion y se la quita
+	 */
+	void forgive();
+
 }
