@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.enums.StatusEnum;
 import com.at.library.model.Book;
+import com.at.library.model.Rent;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -122,6 +124,18 @@ public class BookServiceImpl implements BookService {
 		return bookDao.findUnAvailable();
 	}
 	
-	
+	@Override
+	public List<UserBookRentDTO> getAllRent(Integer idBook){
+		List<Rent> rent = bookDao.getAllRent(idBook);
+		final Iterator<Rent> iterator = rent.iterator();
+		final List<UserBookRentDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final Rent r = iterator.next();
+			final UserBookRentDTO ubrDTO = new UserBookRentDTO();
+			ubrDTO.setRent(r);
+			res.add(ubrDTO);
+		}
+		return res;	
+	}	
 
 }

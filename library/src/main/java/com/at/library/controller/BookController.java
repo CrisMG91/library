@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.service.book.BookService;
 
 @RestController
@@ -145,6 +146,15 @@ public class BookController {
 		log.debug(String.format("Libros disponibles"));
 		return bookservice.findUnAvailable();
 	}
-
+	
+	/**
+	 * Lista de alquileres de un libro
+	 * @param idBook
+	 * @return
+	 */
+	@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
+	public List<UserBookRentDTO> getAllRent(@PathVariable("id")Integer idBook) {
+		return bookservice.getAllRent(idBook);
+	}
 
 }

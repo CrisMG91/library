@@ -3,6 +3,7 @@ package com.at.library.service.book;
 import java.util.List;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Book;
 
 public interface BookService {
@@ -102,5 +103,12 @@ public interface BookService {
 	 * @return
 	 */
 	List<BookDTO> findUnAvailable();
+
+	/**
+	 * Lista de alquileres de un libro
+	 * @param idBook
+	 * @return
+	 */
+	List<UserBookRentDTO> getAllRent(Integer idBook);
 
 }
