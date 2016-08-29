@@ -1,6 +1,9 @@
 package com.at.library.service.rent;
 
+import java.util.List;
+
 import com.at.library.dto.RentDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Rent;
 
 public interface RentService {
@@ -31,6 +34,12 @@ public interface RentService {
 	 * @param id
 	 * @return
 	 */
-	void returnBook(Integer id);	
+	void returnBook(Integer id);
+
+	/**
+	 * Devuelve todos los alquileres
+	 * @return
+	 */
+	List<UserBookRentDTO> getAll();	
 	
 }

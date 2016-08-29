@@ -1,11 +1,16 @@
 package com.at.library.service.rent;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.RentDao;
 import com.at.library.dto.RentDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 import com.at.library.model.RentPK;
@@ -73,12 +78,22 @@ public class RentServiceImpl implements RentService{
 	public void returnBook(Integer id) {
 		Rent r = rentDao.returnBook(id);
 		r.setEndDate(new java.util.Date());
-		
-		Long days = (r.getEndDate().getTime() - r.getInitDate().getTime())/(1000 * 60 * 60 * 24);			
-		if(days > 3)
-			userService.changePunishment(r.getUser().getId());
-		
+				
 		rentDao.save(r);
+	}
+
+	@Override
+	public List<UserBookRentDTO> getAll() {
+		final Iterable<Rent> findAll = rentDao.findAll();
+		final Iterator<Rent> iterator = findAll.iterator();
+		final List<UserBookRentDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final Rent r = iterator.next();
+			final UserBookRentDTO rDTO = new UserBookRentDTO();
+			rDTO.setRent(r);
+			res.add(rDTO);
+		}
+		return res;
 	}
 	
 }

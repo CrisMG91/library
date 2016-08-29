@@ -1,5 +1,7 @@
 package com.at.library.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.RentDTO;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.service.rent.RentService;
 
 @RestController
@@ -41,5 +44,15 @@ public class RentController {
 	public void returnBook(@PathVariable("id")Integer id) {
 		log.debug(String.format("Devolviendo el libro:", id));
 		rentService.returnBook(id) ;
+	}
+	
+	/**
+	 * Devuelve los alquileres
+	 * @return
+	 */
+	@RequestMapping(method =  { RequestMethod.GET})
+	public List<UserBookRentDTO> getAll(){
+		log.debug(String.format("Historial de alquileres"));
+		return rentService.getAll();
 	}
 }
