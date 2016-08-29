@@ -14,9 +14,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.UserDao;
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
 import com.at.library.model.Punishment;
+import com.at.library.model.Rent;
 import com.at.library.model.User;
 import com.at.library.service.punishment.PunishmentService;
 
@@ -171,6 +173,20 @@ public class UserServiceImpl implements UserService{
 			final User u = iterator.next();
 			final UserDTO uDTO = transform(u);
 			res.add(uDTO);
+		}
+		return res;	
+	}
+
+	@Override
+	public List<UserBookRentDTO> getAllRent(Integer idUser) {
+		List<Rent> rent = userDao.getAllRent(idUser);
+		final Iterator<Rent> iterator = rent.iterator();
+		final List<UserBookRentDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final Rent r = iterator.next();
+			final UserBookRentDTO ubrDTO = new UserBookRentDTO();
+			ubrDTO.setRent(r);
+			res.add(ubrDTO);
 		}
 		return res;	
 	}

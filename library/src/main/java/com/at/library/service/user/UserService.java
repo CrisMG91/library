@@ -2,6 +2,7 @@ package com.at.library.service.user;
 
 import java.util.List;
 
+import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.model.User;
 
@@ -102,5 +103,7 @@ public interface UserService {
 	 * Comprueba los usuarios que han cumplido la sancion y se la quita
 	 */
 	void forgive();
+	
+	List<UserBookRentDTO> getAllRent(Integer idUser);
 
 }
