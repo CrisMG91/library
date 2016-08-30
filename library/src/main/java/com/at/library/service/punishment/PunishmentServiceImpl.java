@@ -16,13 +16,6 @@ public class PunishmentServiceImpl implements PunishmentService{
 	@Override
 	public void create(Punishment p) {		
 		punishmentDao.save(p);	
-	}
-
-	@Override
-	public void delete(Punishment p) {
-		punishmentDao.save(p);			
-	}
-	
-	
+	}	
 
 }

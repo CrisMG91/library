@@ -97,13 +97,18 @@ public interface UserService {
 	/**
 	 * Comprueba los usuarios a sancionar y los penaliza
 	 */
-	//void penalize();
+	void penalize();
 
 	/**
 	 * Comprueba los usuarios que han cumplido la sancion y se la quita
 	 */
-	//void forgive();
+	void forgive();
 	
+	/**
+	 * Deuvle todos los alquileres de un usuario
+	 * @param idUser
+	 * @return
+	 */
 	List<UserBookRentDTO> getAllRent(Integer idUser);
 
 }

@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.dozer.DozerBeanMapper;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.at.library.dao.UserDao;
 import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
-import com.at.library.enums.StatusEnum;
 import com.at.library.enums.UserStatusEnum;
 import com.at.library.model.Punishment;
 import com.at.library.model.Rent;
@@ -44,19 +45,25 @@ public class UserServiceImpl implements UserService{
 		return calendar.getTime();
 	}
 	
-	/*@Override
+	@Override
 	@Scheduled(cron = "0 0/1 * * * ?" )
 	public void penalize(){		
 		log.debug("Comienza el proceso de sancion");
-		Iterator<Integer> punish = userDao.punishUser().iterator();
+		Iterator<Rent> punish = userDao.punishUser().iterator();
 		while (punish.hasNext()) {
-			Integer idUser = punish.next();
-			this.changePunishment(idUser);
+			Rent r = punish.next();
+			DateTime initDate = new DateTime(r.getInitDate());
+			DateTime endDate = new DateTime(r.getEndDate());
+			Integer days = Days.daysBetween(initDate.toLocalDate(), endDate.toLocalDate()).getDays();
 			
-			Punishment p = new Punishment();
-			p.setId(idUser);
-			p.setEndDay(this.getDate(3));
-			punishmentService.create(p);
+			if( days > 3){
+				Integer idUser = r.getUser().getId();
+				this.changePunishment(idUser);
+				Punishment p = new Punishment();
+				p.setId(idUser);
+				p.setEndDay(endDate.plusDays(3*days).toDate());
+				punishmentService.create(p);
+			}
 		}
 	}
 	
@@ -64,7 +71,14 @@ public class UserServiceImpl implements UserService{
 	@Scheduled(cron = "0 0/1 * * * ?" )
 	public void forgive(){
 		log.debug("Comienza el proceso de comprobaciones de sanciones");
-	}*/
+		Iterator<Integer> forgive = userDao.forgiveUser().iterator();
+		while (forgive.hasNext()) {
+			UserDTO uDTO = this.findOne(forgive.next());
+			User u = this.transform(uDTO);
+			if(u.getStatus() == UserStatusEnum.PUNISHED)
+				this.changePunishment(u.getId());
+		}
+	}
 	
 	@Override
 	public UserDTO create(UserDTO userDTO) {

@@ -72,7 +72,10 @@ public class UserController {
 		return userService.findByPunished();
 	}
 	
-	
+	/**
+	 * Encuentra los usuarios activos
+	 * @return
+	 */
 	@RequestMapping(value="/status", method = { RequestMethod.GET })
 	public List<UserDTO> findByStatus() {
 		return userService.findByStatus();
