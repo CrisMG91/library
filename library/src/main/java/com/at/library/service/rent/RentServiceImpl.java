@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.at.library.dao.RentDao;
 import com.at.library.dto.RentDTO;
 import com.at.library.dto.UserBookRentDTO;
+import com.at.library.enums.UserStatusEnum;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 import com.at.library.model.RentPK;
@@ -45,7 +46,7 @@ public class RentServiceImpl implements RentService{
 		final User u = userService.transform(userService.findOne(rentDTO.getIdUser()));
 		final Worker w = workerService.transform(workerService.findOne(rentDTO.getIdWorker()));
 		
-		if(bookService.availableBook(b.getId()) && !u.getPunished()){			
+		if(bookService.availableBook(b.getId()) && u.getStatus().equals(UserStatusEnum.ACTIVE)){			
 			Rent rent = new Rent();
 			RentPK pk = new RentPK();
 			

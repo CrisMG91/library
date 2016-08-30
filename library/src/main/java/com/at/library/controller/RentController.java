@@ -36,7 +36,7 @@ public class RentController {
 	}
 	
 	/**
-	 * Devuelve un libro un libro
+	 * Devuelve un libro
 	 * @param rentDTO
 	 * @return
 	 */
