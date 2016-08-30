@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.at.library.dto.BookShelveDTO;
 import com.at.library.service.bookShelve.BookShelveService;
 
-//@RestController
-//@RequestMapping(value = "/bookshelve")
+@RestController
+@RequestMapping(value = "/bookshelve")
 public class BookShelveController {
 	
 	@Autowired
@@ -27,31 +27,31 @@ public class BookShelveController {
 	 * Busca todas las estanterias
 	 * @return
 	 */
-	/*@RequestMapping(method = { RequestMethod.GET })
+	@RequestMapping(method = { RequestMethod.GET })
 	public List<BookShelveDTO> getAll() {
 		return bookShelveService.findAll();
-	}*/
+	}
 	
 	/**
 	 * Devuelve una estanteria segun su id
 	 * @param id
 	 * @return
 	 */
-	/*@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
+	@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
 	public BookShelveDTO findOne(@PathVariable("id")String id){
 		log.debug(String.format("Buscando la estanteria con el id %s", id));
 		return bookShelveService.findOne(id);
-	}*/
+	}
 	
 	/**
 	 * Crea una estanteria
 	 * @param RoomDTO
 	 * @return
 	 */
-	/*@RequestMapping( method = { RequestMethod.POST })
+	@RequestMapping( method = { RequestMethod.POST })
 	public BookShelveDTO create(@RequestBody BookShelveDTO bookShelveDTO) {
 		log.debug(String.format("Creando la estanteria:", bookShelveDTO));
 		return bookShelveService.create(bookShelveDTO) ;
-	}*/
+	}
 
 }

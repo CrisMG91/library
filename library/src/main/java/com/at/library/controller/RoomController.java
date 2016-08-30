@@ -15,7 +15,7 @@ import com.at.library.dto.RoomDTO;
 import com.at.library.service.room.RoomService;
 
 @RestController
-//@RequestMapping(value = "/room")
+@RequestMapping(value = "/room")
 public class RoomController {
 	
 	@Autowired
@@ -27,7 +27,7 @@ public class RoomController {
 	 * Busca todas las salas
 	 * @return
 	 */
-	/*@RequestMapping(method = { RequestMethod.GET })
+	@RequestMapping(method = { RequestMethod.GET })
 	public List<RoomDTO> getAll() {
 		return roomService.findAll();
 	}
@@ -37,7 +37,7 @@ public class RoomController {
 	 * @param id
 	 * @return
 	 */
-	/*@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
+	@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
 	public RoomDTO findOne(@PathVariable("id")String id){
 		log.debug(String.format("Buscando la sala con el id %s", id));
 		return roomService.findOne(id);
@@ -48,9 +48,9 @@ public class RoomController {
 	 * @param RoomDTO
 	 * @return
 	 */
-	/*@RequestMapping( method = { RequestMethod.POST })
+	@RequestMapping( method = { RequestMethod.POST })
 	public RoomDTO create(@RequestBody RoomDTO roomDTO) {
 		log.debug(String.format("Creando la sala:", roomDTO));
 		return roomService.create(roomDTO) ;
-	}*/
+	}
 }
