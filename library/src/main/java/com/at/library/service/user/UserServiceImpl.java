@@ -17,6 +17,7 @@ import com.at.library.dao.UserDao;
 import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.enums.UserStatusEnum;
 import com.at.library.model.Punishment;
 import com.at.library.model.Rent;
 import com.at.library.model.User;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService{
 		return calendar.getTime();
 	}
 	
-	@Override
+	/*@Override
 	@Scheduled(cron = "0 0/1 * * * ?" )
 	public void penalize(){		
 		log.debug("Comienza el proceso de sancion");
@@ -63,11 +64,12 @@ public class UserServiceImpl implements UserService{
 	@Scheduled(cron = "0 0/1 * * * ?" )
 	public void forgive(){
 		log.debug("Comienza el proceso de comprobaciones de sanciones");
-	}
+	}*/
 	
 	@Override
 	public UserDTO create(UserDTO userDTO) {
 		final User user = transform(userDTO);
+		user.setStatus(UserStatusEnum.ACTIVE);
 		return transform(userDao.save(user));
 	}
 	
@@ -89,7 +91,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void disable(Integer id) {
 		User u = userDao.findOne(id);
-		u.setStatus(StatusEnum.DISABLE);
+		u.setStatus(UserStatusEnum.DISABLE);
 					
 		userDao.save(u);			
 	}
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void enable(Integer id) {
 		User u = userDao.findOne(id);
-		u.setStatus(StatusEnum.ACTIVE);
+		u.setStatus(UserStatusEnum.ACTIVE);
 					
 		userDao.save(u);
 	}
@@ -111,10 +113,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void changePunishment(Integer id) {
 		User u = userDao.findOne(id);
-		if(u.getPunished())
-			u.setPunished(false);
+		if(u.getStatus().equals(UserStatusEnum.PUNISHED))
+			u.setStatus(UserStatusEnum.ACTIVE);
 		else
-			u.setPunished(true);
+			u.setStatus(UserStatusEnum.PUNISHED);
 					
 		userDao.save(u);		
 	}
@@ -153,7 +155,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserDTO> findByStatus() {
-		final Iterable<User> findAll = userDao.findByStatus(StatusEnum.ACTIVE);
+		final Iterable<User> findAll = userDao.findByStatus(UserStatusEnum.ACTIVE);
 		final Iterator<User> iterator = findAll.iterator();
 		final List<UserDTO> res = new ArrayList<>();
 		while (iterator.hasNext()) {
@@ -166,7 +168,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserDTO> findByPunished() {
-		final Iterable<User> findAll = userDao.findByPunished(1);
+		final Iterable<User> findAll = userDao.findByStatus(UserStatusEnum.PUNISHED);
 		final Iterator<User> iterator = findAll.iterator();
 		final List<UserDTO> res = new ArrayList<>();
 		while (iterator.hasNext()) {

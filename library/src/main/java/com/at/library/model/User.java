@@ -1,13 +1,14 @@
 package com.at.library.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.at.library.enums.StatusEnum;
+import com.at.library.enums.UserStatusEnum;
 
 @Entity
 public class User implements Serializable{
@@ -23,11 +24,9 @@ public class User implements Serializable{
 	private String lastName;
 	
 	private String dni;	
-	
-	private boolean Punished;
-	
+		
 	@Enumerated(EnumType.STRING)
-	private StatusEnum status;
+	private UserStatusEnum status;
 
 	public Integer getId() {
 		return id;
@@ -61,19 +60,11 @@ public class User implements Serializable{
 		this.dni = dni;
 	}
 
-	public boolean getPunished() {
-		return Punished;
-	}
-
-	public void setPunished(boolean punished) {
-		Punished = punished;
-	}
-
-	public StatusEnum getStatus() {
+	public UserStatusEnum getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusEnum status) {
+	public void setStatus(UserStatusEnum status) {
 		this.status = status;
 	}
 

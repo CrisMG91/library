@@ -117,17 +117,7 @@ public class UserController {
 	public void enable( @PathVariable("id")Integer id){
 		log.debug(String.format("Dando de alta el usuario con id %s", id));
 		userService.enable(id);
-	}
-	
-	/**
-	 * Cambiar castigo usuario
-	 * @param id
-	 */
-	@RequestMapping(value="/punished/{id}", method =  { RequestMethod.DELETE})
-	public void changePunishment( @PathVariable("id")Integer id){
-		log.debug(String.format("Cambiando castigo al usuario con id %s", id));
-		userService.changePunishment(id);
-	}
+	}	
 	
 	@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
 	public List<UserBookRentDTO> getAllRent(@PathVariable("id")Integer idUser) {
