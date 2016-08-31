@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.dozer.DozerBeanMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
@@ -136,6 +138,33 @@ public class BookServiceImpl implements BookService {
 			res.add(ubrDTO);
 		}
 		return res;	
+	}
+
+	@Override
+	public BookDTO searchGoogle(String title) {
+		final String uri = "https://www.googleapis.com/books/v1/volumes?q=" + title;
+	     
+	    RestTemplate restTemplate = new RestTemplate();
+	    String result = restTemplate.getForObject(uri, String.class);
+	    
+	    JSONObject r = new JSONObject(result);	    
+	    JSONObject volumeInfo = r.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo");
+	   	    
+	    BookDTO bookDTO = new BookDTO();
+	    //bookDTO.setId(firstObject.getString("id"));
+	    bookDTO.setTitle(volumeInfo.getString("title"));
+	    bookDTO.setYear(volumeInfo.getInt("publishedDate"));
+	    bookDTO.setDescription(volumeInfo.getString("description"));
+	    bookDTO.setIsbn(volumeInfo.getJSONArray("industryIdentifiers").getJSONObject(0).getString("identifier"));
+	    bookDTO.setImage(volumeInfo.getJSONObject("imageLinks").getString("thumbnail"));
+	    
+	    List<Object> listAuthor = volumeInfo.getJSONArray("authors").toList();
+	    String bookAuthor = "";	    
+	    for(int i=0; i<listAuthor.size(); i++)
+	    	bookAuthor += listAuthor.get(i).toString() + "  ";
+	    bookDTO.setAuthor(bookAuthor);
+	    
+	    return bookDTO;
 	}	
 
 }

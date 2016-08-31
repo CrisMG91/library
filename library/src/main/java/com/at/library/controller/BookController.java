@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
@@ -155,6 +156,16 @@ public class BookController {
 	@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
 	public List<UserBookRentDTO> getAllRent(@PathVariable("id")Integer idBook) {
 		return bookservice.getAllRent(idBook);
+	}
+	
+	/**
+	 * Busca un libro en google por su titulo
+	 * @param title
+	 * @return
+	 */
+	@RequestMapping(value="/getgoogle", method = { RequestMethod.GET }, params={"title"})
+	public BookDTO searchGoogle(@RequestParam("title") String title){
+		return bookservice.searchGoogle(title);
 	}
 
 }

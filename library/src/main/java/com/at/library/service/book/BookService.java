@@ -110,5 +110,12 @@ public interface BookService {
 	 * @return
 	 */
 	List<UserBookRentDTO> getAllRent(Integer idBook);
+	
+	/**
+	 * Busca un libro en la api de google
+	 * @param title
+	 * @return
+	 */
+	BookDTO searchGoogle(String title);
 
 }
