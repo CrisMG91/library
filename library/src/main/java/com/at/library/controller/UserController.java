@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.at.library.dto.BookDTO;
 import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.service.user.UserService;
@@ -25,63 +27,6 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	/**
-	 * Busca todos los usuarios
-	 * @return
-	 */
-	@RequestMapping(method = { RequestMethod.GET })
-	public List<UserDTO> getAll() {
-		return userService.findAll();
-	}
-	
-	/**
-	 * Busca un usuarios segun su id
-	 * @param idUser
-	 * @return
-	 */
-	@RequestMapping(value="/{id}", method = { RequestMethod.GET })
-	public UserDTO findOne(@PathVariable("id")Integer idUser) {
-		return userService.findOne(idUser);
-	}
-	
-	/**
-	 * Busca un usuarios segun su dni
-	 * @param idUser
-	 * @return
-	 */
-	@RequestMapping(value="/dni/{dni}", method = { RequestMethod.GET })
-	public UserDTO findBydni(@PathVariable("dni")String dni) {
-		return userService.findByDNI(dni);
-	}
-	
-	/**
-	 * Busca un usuarios segun su nombre
-	 * @param idUser
-	 * @return
-	 */
-	@RequestMapping(value="/name/{name}", method = { RequestMethod.GET })
-	public List<UserDTO> findByName(@PathVariable("name")String name) {
-		return userService.findByName(name);
-	}
-	
-	/**
-	 * Busca los usuarios castigados
-	 * @return
-	 */
-	@RequestMapping(value="/punished", method = { RequestMethod.GET })
-	public List<UserDTO> findByPunished() {
-		return userService.findByPunished();
-	}
-	
-	/**
-	 * Encuentra los usuarios activos
-	 * @return
-	 */
-	@RequestMapping(value="/status", method = { RequestMethod.GET })
-	public List<UserDTO> findByStatus() {
-		return userService.findByStatus();
-	}
-	
-	/**
 	 * Crea un usuario
 	 * @param user
 	 * @return
@@ -93,38 +38,98 @@ public class UserController {
 	}
 	
 	/**
-	 * Elimina un usuario
-	 * @param id
-	 */
-	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@PathVariable("id")Integer id){
-		log.debug(String.format("Borrando al usuario con id %s", id));
-		userService.delete(id);
-	}
-	
-	/**
 	 * Dar de baja un usuario
 	 * @param id
 	 */
-	@RequestMapping(value="/disable/{id}", method =  { RequestMethod.DELETE})
+	@RequestMapping(value="/{id}", method =  { RequestMethod.DELETE})
 	public void disable( @PathVariable("id")Integer id){
 		log.debug(String.format("Dando de baja el usuario con id %s", id));
 		userService.disable(id);
 	}
 	
 	/**
+	 * Busca todos los usuarios / por nombre / por dni
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.GET })
+	public List<UserDTO> getAll(@RequestParam(value = "name", required=false) String name, @RequestParam(value = "dni", required=false) String dni) {
+		return userService.findUsers(name, dni);
+	}
+	
+	/*/**
+	 * Busca un usuarios segun su id
+	 * @param idUser
+	 * @return
+	 */
+	/*@RequestMapping(value="/{id}", method = { RequestMethod.GET })
+	public UserDTO findOne(@PathVariable("id")Integer idUser) {
+		return userService.findOne(idUser);
+	}
+	
+	/**
+	 * Busca un usuarios segun su dni
+	 * @param idUser
+	 * @return
+	 */
+	/*@RequestMapping(value="/dni/{dni}", method = { RequestMethod.GET })
+	public UserDTO findBydni(@PathVariable("dni")String dni) {
+		return userService.findByDNI(dni);
+	}
+	
+	/**
+	 * Busca un usuarios segun su nombre
+	 * @param idUser
+	 * @return
+	 */
+	/*@RequestMapping(value="/name/{name}", method = { RequestMethod.GET })
+	public List<UserDTO> findByName(@PathVariable("name")String name) {
+		return userService.findByName(name);
+	}
+	
+	/**
+	 * Busca los usuarios castigados
+	 * @return
+	 */
+	/*@RequestMapping(value="/punished", method = { RequestMethod.GET })
+	public List<UserDTO> findByPunished() {
+		return userService.findByPunished();
+	}
+	
+	/**
+	 * Encuentra los usuarios activos
+	 * @return
+	 */
+	/*@RequestMapping(value="/status", method = { RequestMethod.GET })
+	public List<UserDTO> findByStatus() {
+		return userService.findByStatus();
+	}*/
+	
+	/**
+	 * Elimina un usuario
+	 * @param id
+	 */
+	/*@RequestMapping(value="/delete/{id}", method = { RequestMethod.DELETE })
+	public void delete(@PathVariable("id")Integer id){
+		log.debug(String.format("Borrando al usuario con id %s", id));
+		userService.delete(id);
+	}	
+	
+	/**
 	 * Dar de alta un usuario
 	 * @param id
 	 */
-	@RequestMapping(value="/enable/{id}", method =  { RequestMethod.DELETE})
+	/*@RequestMapping(value="/enable/{id}", method =  { RequestMethod.DELETE})
 	public void enable( @PathVariable("id")Integer id){
 		log.debug(String.format("Dando de alta el usuario con id %s", id));
 		userService.enable(id);
 	}	
 	
-	@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
+	/**
+	 * Alquileres realizado por un usuario
+	 */
+	/*@RequestMapping(value="/getallrent/{id}", method = { RequestMethod.GET })
 	public List<UserBookRentDTO> getAllRent(@PathVariable("id")Integer idUser) {
 		return userService.getAllRent(idUser);
-	}
+	}*/
 
 }

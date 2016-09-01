@@ -162,9 +162,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDTO findByDNI(String dni) {
-		final User u = userDao.findByDni(dni);
-		return transform(u);
+	public List<UserDTO> findByDNI(String dni) {
+		final Iterable<User> findUser = userDao.findByDni(dni);
+		final Iterator<User> iterator = findUser.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
+		}
+		return res;
 	}
 
 	@Override
@@ -203,6 +210,35 @@ public class UserServiceImpl implements UserService{
 			final UserBookRentDTO ubrDTO = new UserBookRentDTO();
 			ubrDTO.setRent(r);
 			res.add(ubrDTO);
+		}
+		return res;	
+	}
+
+	@Override
+	public List<UserDTO> findUsers(String name, String dni) {
+		List<UserDTO> usersDTO = new ArrayList<>();
+		
+		if(name == null && dni == null)
+			usersDTO = this.findAll();
+		else if(name != null && dni == null)
+			usersDTO = this.findByName(name);
+		else if (name == null && dni != null)
+			usersDTO = this.findByDNI(dni);
+		else 
+			usersDTO = this.findByNameDni(name, dni);
+			
+		return usersDTO;
+	}
+
+	@Override
+	public List<UserDTO> findByNameDni(String name, String dni) {
+		final Iterable<User> findAll = userDao.findByNameAndDni(name, dni);
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> res = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User u = iterator.next();
+			final UserDTO uDTO = transform(u);
+			res.add(uDTO);
 		}
 		return res;	
 	}

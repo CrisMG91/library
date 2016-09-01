@@ -72,7 +72,7 @@ public interface UserService {
 	 * @param dni
 	 * @return
 	 */
-	UserDTO findByDNI(String dni);
+	List<UserDTO> findByDNI(String dni);
 	
 	/**
 	 * Usuarios Activos
@@ -110,5 +110,20 @@ public interface UserService {
 	 * @return
 	 */
 	List<UserBookRentDTO> getAllRent(Integer idUser);
+
+	/**
+	 * Busca todos los usuarios / segun su nombre / segun su dni
+	 * @param name
+	 * @param dni
+	 * @return
+	 */
+	List<UserDTO> findUsers(String name, String dni);
+	
+	/**
+	 * Busca un usuario por su nombre y dni
+	 * @param name, dni
+	 * @return
+	 */
+	List<UserDTO> findByNameDni(String name, String dni);
 
 }

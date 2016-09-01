@@ -13,8 +13,6 @@ public class UserDTO extends DTO{
 	private String lastName;
 	
 	private String dni;	
-	
-	private boolean Punished;
 
 	private StatusEnum status;
 	
@@ -50,14 +48,6 @@ public class UserDTO extends DTO{
 		this.dni = dni;
 	}
 
-	public boolean isPunished() {
-		return Punished;
-	}
-
-	public void setPunished(boolean punished) {
-		Punished = punished;
-	}
-
 	public StatusEnum getStatus() {
 		return status;
 	}
@@ -68,8 +58,7 @@ public class UserDTO extends DTO{
 
 	@Override
 	public String toString() {
-		return "UserDTO [id=" + id + ", name=" + name + ", lastName=" + lastName + ", dni=" + dni + ", Punished="
-				+ Punished + ", status=" + status + "]";
+		return "UserDTO [id=" + id + ", name=" + name + ", lastName=" + lastName + ", dni=" + dni + ", status=" + status + "]";
 	}
 	
 }
