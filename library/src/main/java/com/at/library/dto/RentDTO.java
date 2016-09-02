@@ -4,43 +4,28 @@ public class RentDTO extends DTO{
 
 	private static final long serialVersionUID = 7364756623634860483L;
 
-	private Integer idLibro;
+	private Integer book;
 	
-	private Integer idUser;
-	
-	private Integer idWorker;
-	
-	//No ponemos la fecha pues el preferible añadirla nosotros desde nuestro servidor
-	//private Date initDate;
-	//private Date endDate;
+	private Integer user;
 
-	public Integer getIdLibro() {
-		return idLibro;
+	public Integer getBook() {
+		return book;
 	}
 
-	public void setIdLibro(Integer idLibro) {
-		this.idLibro = idLibro;
+	public void setBook(Integer book) {
+		this.book = book;
 	}
 
-	public Integer getIdUser() {
-		return idUser;
+	public Integer getUser() {
+		return user;
 	}
 
-	public void setIdUser(Integer idUser) {
-		this.idUser = idUser;
-	}
-
-	public Integer getIdWorker() {
-		return idWorker;
-	}
-
-	public void setIdWorker(Integer idWorker) {
-		this.idWorker = idWorker;
+	public void setUser(Integer user) {
+		this.user = user;
 	}
 
 	@Override
 	public String toString() {
-		return "RentDTO [idLibro=" + idLibro + ", idUser=" + idUser + ", idWorker=" + idWorker + "]";
-	}
-	
+		return "RentDTO [book=" + book + ", user=" + user + "]";
+	}	
 }

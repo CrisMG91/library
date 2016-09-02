@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
-import com.at.library.dto.UserBookRentDTO;
 import com.at.library.service.rent.RentService;
 
 @RestController
@@ -30,7 +30,7 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping( method = { RequestMethod.POST })
-	public boolean rentBook(@RequestBody RentDTO rentDTO) /*throws BookRentedException*/{
+	public RentDTO rentBook(@RequestBody RentDTO rentDTO) /*throws BookRentedException*/{
 		log.debug(String.format("Alquilando un libro:", rentDTO));
 		return rentService.rentBook(rentDTO) ;
 	}
@@ -51,7 +51,7 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping(method =  { RequestMethod.GET})
-	public List<UserBookRentDTO> getAll(){
+	public List<HistoryRentedDTO> getAll(){
 		log.debug(String.format("Historial de alquileres"));
 		return rentService.getAll();
 	}

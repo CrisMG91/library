@@ -2,8 +2,8 @@ package com.at.library.service.rent;
 
 import java.util.List;
 
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
-import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Rent;
 
 public interface RentService {
@@ -13,7 +13,7 @@ public interface RentService {
 	 * @param rentDTO
 	 * @return boolean
 	 */
-	boolean rentBook(RentDTO rentDTO);
+	RentDTO rentBook(RentDTO rentDTO);
 	
 	/**
 	 * Tranforma un Rent en RentDTO 
@@ -40,6 +40,13 @@ public interface RentService {
 	 * Devuelve todos los alquileres
 	 * @return
 	 */
-	List<UserBookRentDTO> getAll();	
+	List<HistoryRentedDTO> getAll();
+
+	/**
+	 * Comprueba si el libro existe en el modelo Rent
+	 * @param idBook
+	 * @return
+	 */
+	int findBookRent(Integer idBook);
 	
 }

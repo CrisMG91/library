@@ -1,7 +1,5 @@
 package com.at.library.service.rent;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.dozer.DozerBeanMapper;
@@ -9,17 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.RentDao;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
-import com.at.library.dto.UserBookRentDTO;
 import com.at.library.enums.UserStatusEnum;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 import com.at.library.model.RentPK;
 import com.at.library.model.User;
-import com.at.library.model.Worker;
 import com.at.library.service.book.BookService;
 import com.at.library.service.user.UserService;
-import com.at.library.service.worker.WorkerService;
 
 @Service
 public class RentServiceImpl implements RentService{
@@ -33,21 +29,16 @@ public class RentServiceImpl implements RentService{
 	@Autowired
 	private UserService userService;
 	
-	@Autowired 
-	private WorkerService workerService;
-	
 	@Autowired
 	private DozerBeanMapper dozer;
 	
 	@Override
-	public boolean rentBook(RentDTO rentDTO) {	
-		boolean resp = false;
-		final Book b = bookService.transform(bookService.findOne(rentDTO.getIdLibro()));
-		final User u = userService.transform(userService.findOne(rentDTO.getIdUser()));
-		final Worker w = workerService.transform(workerService.findOne(rentDTO.getIdWorker()));
+	public RentDTO rentBook(RentDTO rentDTO) {	
+		final Book b = bookService.transform(bookService.findOne(rentDTO.getBook()));
+		final User u = userService.transform(userService.findOne(rentDTO.getUser()));
+		Rent rent = new Rent();
 		
-		if(bookService.availableBook(b.getId()) && u.getStatus().equals(UserStatusEnum.ACTIVE)){			
-			Rent rent = new Rent();
+		if((bookService.availableBook(b.getId()) || this.findBookRent(b.getId()) == 0) && bookService.activeBook(b.getId()) && u.getStatus().equals(UserStatusEnum.ACTIVE)){			
 			RentPK pk = new RentPK();
 			
 			pk.setBook(b);
@@ -55,19 +46,26 @@ public class RentServiceImpl implements RentService{
 			
 			rent.setPk(pk);
 			rent.setUser(u);
-			rent.setWorker(w);
 			rent.setEndDate(null);
 			
-			transform(rentDao.save(rent));
-			resp = true;
+			rentDao.save(rent);
 		}
 		
-		return resp;
+		return transform(rent);
+	}
+	
+	@Override
+	public int findBookRent(Integer idBook) {	
+		return rentDao.findBookRent(idBook);
 	}
 	
 	@Override
 	public RentDTO transform(Rent rent) {
-		return dozer.map(rent, RentDTO.class);
+		RentDTO renDto = new RentDTO();
+		renDto.setBook(rent.getBook().getId());
+		renDto.setUser(rent.getUser().getId());
+		
+		return renDto;
 	}
 
 	@Override
@@ -84,17 +82,8 @@ public class RentServiceImpl implements RentService{
 	}
 
 	@Override
-	public List<UserBookRentDTO> getAll() {
-		final Iterable<Rent> findAll = rentDao.findAll();
-		final Iterator<Rent> iterator = findAll.iterator();
-		final List<UserBookRentDTO> res = new ArrayList<>();
-		while (iterator.hasNext()) {
-			final Rent r = iterator.next();
-			final UserBookRentDTO rDTO = new UserBookRentDTO();
-			rDTO.setRent(r);
-			res.add(rDTO);
-		}
-		return res;
+	public List<HistoryRentedDTO> getAll() {
+		return rentDao.historyRented();
 	}
-	
+
 }
