@@ -3,6 +3,7 @@ package com.at.library.service.book;
 import java.util.List;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Book;
 
@@ -63,7 +64,7 @@ public interface BookService {
 	 * @param title
 	 * @return
 	 */
-	BookDTO findByTitle(String title);
+	List<BookDTO> findByTitle(String title);
 
 	/**
 	 * Busca un libro dado un autor
@@ -77,7 +78,7 @@ public interface BookService {
 	 * @param isbn
 	 * @return
 	 */
-	BookDTO findByISBN(String isbn);
+	List<BookDTO> findByISBN(String isbn);
 
 	/**
 	 * Da de baja un libro
@@ -109,13 +110,27 @@ public interface BookService {
 	 * @param idBook
 	 * @return
 	 */
-	List<UserBookRentDTO> getAllRent(Integer idBook);
+	List<HistoryRentedDTO> getAllRent(Integer idBook);
 	
 	/**
 	 * Busca un libro en la api de google
 	 * @param title
 	 * @return
 	 */
-	BookDTO searchGoogle(String title);
+	BookDTO searchGoogle(BookDTO bookDto);
+
+	/**
+	 * Busca todos los libros / segun su titulo / segun su isbn
+	 * @param title
+	 * @param isbn
+	 * @return
+	 */
+	List<BookDTO> findBook(String title, String isbn);
+
+	/**
+	 * Recorre un List de libros
+	 * @return
+	 */
+	List<BookDTO> collectionOfBooks(List<Book> books);
 
 }

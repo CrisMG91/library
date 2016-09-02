@@ -8,17 +8,27 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 
 @Repository
 public interface BookDao extends CrudRepository<Book, Integer> {
 
-	public Book findByTitle(String title);
+	@Query(value = "SELECT b FROM Book AS b WHERE b.status != 'DISABLE' ")
+	public List<Book> findAllBook();
 	
-	public List<Book> findByAuthor(String author);
+	@Query(value = "SELECT b FROM Book AS b WHERE b.title = :title AND b.status != 'DISABLE' ")
+	public List<Book> findByTitle(@Param(value = "title")String title);
 	
-	public Book findByIsbn(String isbn);
+	@Query(value = "SELECT b FROM Book AS b WHERE b.author = :author AND b.status != 'DISABLE' ")
+	public List<Book> findByAuthor(@Param(value = "author")String author);
+	
+	@Query(value = "SELECT b FROM Book AS b WHERE b.isbn = :isbn AND b.status != 'DISABLE' ")
+	public List<Book> findByIsbn(@Param(value = "isbn")String isbn);
+	
+	@Query(value = "SELECT b FROM Book AS b WHERE b.title = :title AND b.isbn = :isbn AND b.status != 'DISABLE' ")
+	public List<Book> findTitleIsbn(@Param(value = "title")String title, @Param(value = "isbn")String isbn);
 	
 	@Query(value = "SELECT new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) FROM Book AS b WHERE b.id IN (SELECT r.pk.book.id FROM Rent AS r WHERE r.endDate IS null)")
 	public List<BookDTO> findUnAvailable();
@@ -26,6 +36,7 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	@Query(value = "SELECT r.pk.book.id FROM Rent AS r, Book AS b WHERE (r.endDate IS null AND r.pk.book.id = ?1) OR (b.id = :id AND b.status = 'DISABLE')")
 	public Integer availableBook(@Param(value = "id")Integer id);
 	
-	@Query(value = "SELECT r FROM Rent AS r WHERE r.pk.book.id = :idBook")
-	public List<Rent> getAllRent(@Param(value = "idBook")Integer idBook);
+	@Query(value = "SELECT new com.at.library.dto.HistoryRentedDTO(r.pk.initDate, r.endDate, r.pk.book.title, r.pk.book.id) FROM Rent AS r WHERE r.pk.book.id = :idBook")
+	public List<HistoryRentedDTO> getAllRent(@Param(value = "idBook")Integer idBook);	
+	
 }
