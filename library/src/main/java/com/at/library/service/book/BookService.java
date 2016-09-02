@@ -133,4 +133,11 @@ public interface BookService {
 	 */
 	List<BookDTO> collectionOfBooks(List<Book> books);
 
+	/**
+	 * Comprueba si un libro esta activo
+	 * @param id
+	 * @return
+	 */
+	boolean activeBook(Integer id);
+
 }

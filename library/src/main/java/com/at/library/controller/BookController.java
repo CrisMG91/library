@@ -143,7 +143,7 @@ public class BookController {
 	 * @param book
 	 * @return
 	 */
-	/*@RequestMapping(value="availablebook/{id}", method =  { RequestMethod.GET})
+	@RequestMapping(value="availablebook/{id}", method =  { RequestMethod.GET})
 	public boolean availableBook(@PathVariable("id")Integer id){
 		log.debug(String.format("Comprobando la disponibilidad del libro: %s", id));
 		return bookservice.availableBook(id);

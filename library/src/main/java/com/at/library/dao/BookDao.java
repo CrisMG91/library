@@ -33,10 +33,13 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	@Query(value = "SELECT new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) FROM Book AS b WHERE b.id IN (SELECT r.pk.book.id FROM Rent AS r WHERE r.endDate IS null)")
 	public List<BookDTO> findUnAvailable();
 	
-	@Query(value = "SELECT r.pk.book.id FROM Rent AS r, Book AS b WHERE (r.endDate IS null AND r.pk.book.id = ?1) OR (b.id = :id AND b.status = 'DISABLE')")
+	@Query(value = "SELECT count(b.id) FROM Rent AS r, Book AS b WHERE r.pk.book.id = :id AND r.pk.book.id = b.id AND r.endDate IS NOT null AND b.status != 'DISABLE'")
 	public Integer availableBook(@Param(value = "id")Integer id);
 	
 	@Query(value = "SELECT new com.at.library.dto.HistoryRentedDTO(r.pk.initDate, r.endDate, r.pk.book.title, r.pk.book.id) FROM Rent AS r WHERE r.pk.book.id = :idBook")
-	public List<HistoryRentedDTO> getAllRent(@Param(value = "idBook")Integer idBook);	
+	public List<HistoryRentedDTO> getAllRent(@Param(value = "idBook")Integer idBook);
+	
+	@Query(value = "SELECT count(b.id) FROM Book AS b WHERE b.id = :id AND b.status != 'DISABLE'")
+	public Integer activeBook(@Param(value = "id")Integer id);
 	
 }

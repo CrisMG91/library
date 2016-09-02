@@ -132,9 +132,20 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public boolean availableBook(Integer id) {
-		if(bookDao.availableBook(id) == null)
-			return true;
-		else return false;
+		boolean resp = false;
+		if(bookDao.availableBook(id) > 0)			
+			resp = true;
+		
+		return resp;
+	}
+	
+	@Override
+	public boolean activeBook(Integer id) {
+		boolean resp = false;
+		if(bookDao.activeBook(id) > 0)			
+			resp = true;
+		
+		return resp;
 	}
 
 	@Override
