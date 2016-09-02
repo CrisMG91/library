@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserDTO> findAll() {
-		final Iterable<User> findAll = userDao.findAll();
+		final Iterable<User> findAll = userDao.findAllUser();
 		final Iterator<User> iterator = findAll.iterator();
 		final List<UserDTO> res = new ArrayList<>();
 		while (iterator.hasNext()) {

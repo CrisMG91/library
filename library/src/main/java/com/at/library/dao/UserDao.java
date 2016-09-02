@@ -35,6 +35,6 @@ public interface UserDao extends CrudRepository<User, Integer>{
 	public List<User> findByNameAndDni (@Param(value = "name")String name, @Param(value = "dni")String dni);
 	
 	@Query(value = "SELECT u FROM User AS u WHERE u.status != 'DISABLE' ")
-	public List<User> findAll ();
+	public List<User> findAllUser();
 	
 }
