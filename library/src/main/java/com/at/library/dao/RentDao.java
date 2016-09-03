@@ -17,9 +17,10 @@ public interface RentDao extends CrudRepository<Rent, Integer>{
 	public Rent returnBook(@Param(value = "idBook")Integer idBook);
 	
 	@Query(value = "SELECT new com.at.library.dto.HistoryRentedDTO(r.pk.initDate, r.endDate, r.pk.book.title, r.pk.book.id) FROM Rent AS r")
-	public List<HistoryRentedDTO> historyRented();
+	public List<HistoryRentedDTO> historyRented();	
 
-	@Query(value = "SELECT count(r.pk.book.id) FROM Rent AS r WHERE r.pk.book.id = :idBook")
+	@Query(value = "SELECT count(r.pk.book.id) FROM Rent AS r WHERE r.pk.book.id = :idBook")	
 	public int findBookRent(@Param(value = "idBook")Integer idBook);
+	
 
 }

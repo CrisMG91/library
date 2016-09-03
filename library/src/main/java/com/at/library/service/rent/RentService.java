@@ -38,9 +38,11 @@ public interface RentService {
 
 	/**
 	 * Devuelve todos los alquileres
+	 * @param size 
+	 * @param page 
 	 * @return
 	 */
-	List<HistoryRentedDTO> getAll();
+	List<HistoryRentedDTO> getAll(Integer page, Integer size);
 
 	/**
 	 * Comprueba si el libro existe en el modelo Rent

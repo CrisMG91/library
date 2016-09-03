@@ -1,9 +1,27 @@
 package com.at.library.service.rent;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transaction;
+
 import org.dozer.DozerBeanMapper;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.CriteriaQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.RentDao;
@@ -82,8 +100,16 @@ public class RentServiceImpl implements RentService{
 	}
 
 	@Override
-	public List<HistoryRentedDTO> getAll() {
-		return rentDao.historyRented();
+	public List<HistoryRentedDTO> getAll(Integer page, Integer size) {
+		List<HistoryRentedDTO> historyRentedDTO = rentDao.historyRented();
+		if(page != null && size != null){
+			List<HistoryRentedDTO> aux = new ArrayList<>();
+			for(int i=(page*size)-size; i<(page*size) && i<historyRentedDTO.size(); i++)
+				aux.add(historyRentedDTO.get(i));
+			historyRentedDTO = aux;
+		}		
+		
+		return historyRentedDTO;
 	}
 
 }
