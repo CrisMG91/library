@@ -4,17 +4,51 @@ import java.util.List;
 
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
-import com.at.library.dto.UserBookRentDTO;
 import com.at.library.model.Book;
 
 public interface BookService {
 
 	/**
-	 * Realiza la busqueda de todos los libros existentes
-	 * 
-	 * @return listado de libros
+	 * Crea un nuevo libro
+	 * @param book
 	 */
-	List<BookDTO> findAll();
+	BookDTO create(BookDTO book);
+
+
+	/**
+	 * Modifica un libro dado su id
+	 * @param id
+	 * @param book
+	 */
+	void update(BookDTO book);
+	
+	/**
+	 * Da de baja un libro
+	 * @param id
+	 */
+	void disableBook(Integer id);
+	
+	/**
+	 * Lista de alquileres de un libro
+	 * @param idBook
+	 * @return
+	 */
+	List<HistoryRentedDTO> getAllRent(Integer idBook, Integer page, Integer size);
+	
+	/**
+	 * Busca un libro en la api de google
+	 * @param title
+	 * @return
+	 */
+	BookDTO searchGoogle(BookDTO bookDto);
+
+	/**
+	 * Busca todos los libros / segun su titulo / segun su isbn
+	 * @param title
+	 * @param isbn
+	 * @return
+	 */
+	List<BookDTO> findBook(String title, String isbn);
 
 	/**
 	 * Transfrma un libro en un libroDTO
@@ -33,26 +67,19 @@ public interface BookService {
 	Book transform(BookDTO book);
 	
 	/**
+	 * Realiza la busqueda de todos los libros existentes
+	 * 
+	 * @return listado de libros
+	 */
+	List<BookDTO> findAll();
+	
+	/**
 	 * Busca un libro dada su id
 	 * @param id
 	 * @return
 	 */
 	BookDTO findOne(Integer id);
 	
-	/**
-	 * Crea un nuevo libro
-	 * @param book
-	 */
-	BookDTO create(BookDTO book);
-
-
-	/**
-	 * Modifica un libro dado su id
-	 * @param id
-	 * @param book
-	 */
-	void update(BookDTO book);
-
 	/**
 	 * Elimina un libro dado su id
 	 * @param id
@@ -80,11 +107,7 @@ public interface BookService {
 	 */
 	List<BookDTO> findByISBN(String isbn);
 
-	/**
-	 * Da de baja un libro
-	 * @param id
-	 */
-	void disableBook(Integer id);
+	
 
 	/**
 	 * Dando de alta un libro
@@ -105,27 +128,7 @@ public interface BookService {
 	 */
 	List<BookDTO> findUnAvailable();
 
-	/**
-	 * Lista de alquileres de un libro
-	 * @param idBook
-	 * @return
-	 */
-	List<HistoryRentedDTO> getAllRent(Integer idBook);
 	
-	/**
-	 * Busca un libro en la api de google
-	 * @param title
-	 * @return
-	 */
-	BookDTO searchGoogle(BookDTO bookDto);
-
-	/**
-	 * Busca todos los libros / segun su titulo / segun su isbn
-	 * @param title
-	 * @param isbn
-	 * @return
-	 */
-	List<BookDTO> findBook(String title, String isbn);
 
 	/**
 	 * Recorre un List de libros

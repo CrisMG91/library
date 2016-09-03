@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
-import com.at.library.dto.UserBookRentDTO;
 import com.at.library.service.book.BookService;
 
 @RestController
@@ -73,100 +72,8 @@ public class BookController {
 	 * @return
 	 */
 	@RequestMapping(value="{id}/rent", method = { RequestMethod.GET })
-	public List<HistoryRentedDTO> getAllRent(@PathVariable("id")Integer idBook) {
-		return bookservice.getAllRent(idBook);
+	public List<HistoryRentedDTO> getAllRent(@PathVariable("id")Integer idBook, @RequestParam(value = "page", required=false) Integer page, @RequestParam(value = "size", required=false) Integer size) {
+		return bookservice.getAllRent(idBook, page, size);
 	}
-	
-	/*/**
-	 * Devuelve un libro segun su id
-	 * @param id
-	 * @return
-	 */
-	/*@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
-	public BookDTO findOne(@PathVariable("id")Integer id){
-		log.debug(String.format("Buscando el libro con el id %s", id));
-		return bookservice.findOne(id);
-	}	
-	
-	/**
-	 * Dar de alta un libro
-	 * @param id
-	 */
-	/*@RequestMapping(value="/enable/{id}", method =  { RequestMethod.DELETE})
-	public void enable( @PathVariable("id")Integer id){
-		log.debug(String.format("Dando de alta el libro con id %s", id));
-		bookservice.enableBook(id);
-	}
-		
-	/**
-	 * Borrar un libro
-	 * @param id
-	 */
-	/*@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@PathVariable("id")Integer id){
-		log.debug(String.format("Borrando el libro con id %s", id));
-		bookservice.delete(id);
-	}
-	
-	/**
-	 * Buscar un libro mediante su titulo
-	 * @param title
-	 */
-	/*@RequestMapping(value="findbytitle/{title}", method = { RequestMethod.GET })
-	public BookDTO findByTitle(@PathVariable("title")String title){
-		log.debug(String.format("Buscando el libro con titulo: %s", title));
-		return bookservice.findByTitle(title);
-	}
-	
-	/**
-	 * Buscar un libro mediante su autor
-	 * @param title
-	 */
-	/*@RequestMapping(value="findbyauthor/{author}", method = { RequestMethod.GET })
-	public List<BookDTO> findByAuthor(@PathVariable("author")String author){
-		log.debug(String.format("Buscando el libro con autor: %s", author));
-		return bookservice.findByAuthor(author);
-	}
-	
-	/**
-	 * Buscar un libro mediante su ISBN
-	 * @param title
-	 */
-	/*@RequestMapping(value="findbyisbn/{isbn}", method = { RequestMethod.GET })
-	public BookDTO findByISBN(@PathVariable("isbn")String isbn){
-		log.debug(String.format("Buscando el libro con ISBN: %s", isbn));
-		return bookservice.findByISBN(isbn);
-	}
-	
-	/**
-	 * Comprueba si un libro esta disponible
-	 * @param book
-	 * @return
-	 */
-	@RequestMapping(value="availablebook/{id}", method =  { RequestMethod.GET})
-	public boolean availableBook(@PathVariable("id")Integer id){
-		log.debug(String.format("Comprobando la disponibilidad del libro: %s", id));
-		return bookservice.availableBook(id);
-	}
-	
-	/**
-	 * Devuelve los libros alquilados
-	 * @return
-	 */
-	/*@RequestMapping(value="/unavailablebook", method =  { RequestMethod.GET})
-	public List<BookDTO> findUnAvailable(){
-		log.debug(String.format("Libros disponibles"));
-		return bookservice.findUnAvailable();
-	}
-	
-	/**
-	 * Busca un libro en google por su titulo
-	 * @param title
-	 * @return
-	 */
-	/*@RequestMapping(value="/getgoogle", method = { RequestMethod.GET }, params={"title"})
-	public BookDTO searchGoogle(@RequestParam("title") String title){
-		return bookservice.searchGoogle(title);
-	}*/
 
 }

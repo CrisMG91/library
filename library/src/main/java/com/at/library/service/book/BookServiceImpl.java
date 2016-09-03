@@ -13,11 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
-import com.at.library.dto.UserBookRentDTO;
-import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
 import com.at.library.model.Book;
-import com.at.library.model.Rent;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -27,7 +24,28 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private DozerBeanMapper dozer;
+	
+	@Override
+	public BookDTO create(BookDTO bookDTO) {
+		final Book book=transform(bookDTO);
+		book.setStatus(StatusEnum.ACTIVE);
+		return transform(bookDao.save(book));		
+	}
 
+	@Override
+	public void update(BookDTO book) {
+		final BookDTO b=book;
+		bookDao.save(transform(b));		
+	}
+
+	@Override
+	public void disableBook(Integer id) {
+		Book b = bookDao.findOne(id);
+		b.setStatus(StatusEnum.DISABLE);
+					
+		bookDao.save(b);	
+	}
+	
 	@Override
 	public List<BookDTO> findAll() {
 		final Iterable<Book> findAll = bookDao.findAllBook();
@@ -39,6 +57,58 @@ public class BookServiceImpl implements BookService {
 			res.add(bDTO);
 		}
 		return res;
+	}
+	
+	@Override
+	public List<HistoryRentedDTO> getAllRent(Integer idBook, Integer page, Integer size){
+		List<HistoryRentedDTO> historyRentedDTO = bookDao.getAllRent(idBook);
+		if(page != null && size != null){
+			List<HistoryRentedDTO> aux = new ArrayList<>();
+			for(int i=(page*size)-size; i<(page*size) && i<historyRentedDTO.size(); i++)
+				aux.add(historyRentedDTO.get(i));
+			historyRentedDTO = aux;
+		}		
+		
+		return historyRentedDTO;
+	}
+
+	@Override
+	public BookDTO searchGoogle(BookDTO bookDTO) {
+		final String uri = "https://www.googleapis.com/books/v1/volumes?q=" + bookDTO.getTitle() + "&maxResults=1";
+	     
+	    RestTemplate restTemplate = new RestTemplate();
+	    String result = restTemplate.getForObject(uri, String.class);
+	    
+	    JSONObject r = new JSONObject(result);	    
+	    JSONObject volumeInfo = r.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo");
+	   	    
+	    String year = volumeInfo.getString("publishedDate");
+	    if(year.length() >= 4)
+	    	bookDTO.setYear(Integer.parseInt(year.substring(0,4)));
+	    
+	    bookDTO.setDescription(volumeInfo.getString("description"));
+	    bookDTO.setImage(volumeInfo.getJSONObject("imageLinks").getString("thumbnail"));
+	  	    
+	    return bookDTO;
+	}
+
+	@Override
+	public List<BookDTO> findBook(String title, String isbn) {
+		List<BookDTO> booksDTO = new ArrayList<>();
+		List<Book> books = new ArrayList<>();
+		
+		if(title == null && isbn == null)
+			books = bookDao.findAllBook();
+		else if(title != null && isbn == null)
+			books = bookDao.findByTitle(title);
+		else if (title == null && isbn != null)
+			books = bookDao.findByIsbn(isbn);
+		else 
+			books = bookDao.findTitleIsbn(title, isbn);
+		
+		booksDTO = this.collectionOfBooks(books);
+			
+		return booksDTO;
 	}
 
 	@Override
@@ -55,19 +125,6 @@ public class BookServiceImpl implements BookService {
 	public BookDTO findOne(Integer id) {		
 		final Book b=bookDao.findOne(id);
 		return transform(b);
-	}
-
-	@Override
-	public BookDTO create(BookDTO bookDTO) {
-		final Book book=transform(bookDTO);
-		book.setStatus(StatusEnum.ACTIVE);
-		return transform(bookDao.save(book));		
-	}
-
-	@Override
-	public void update(BookDTO book) {
-		final BookDTO b=book;
-		bookDao.save(transform(b));		
 	}
 
 	@Override
@@ -115,14 +172,6 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void disableBook(Integer id) {
-		Book b = bookDao.findOne(id);
-		b.setStatus(StatusEnum.DISABLE);
-					
-		bookDao.save(b);	
-	}
-
-	@Override
 	public void enableBook(Integer id) {
 		Book b = bookDao.findOne(id);
 		b.setStatus(StatusEnum.ACTIVE);
@@ -154,50 +203,6 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public List<HistoryRentedDTO> getAllRent(Integer idBook){
-		return bookDao.getAllRent(idBook);
-	}
-
-	@Override
-	public BookDTO searchGoogle(BookDTO bookDTO) {
-		final String uri = "https://www.googleapis.com/books/v1/volumes?q=" + bookDTO.getTitle() + "&maxResults=1";
-	     
-	    RestTemplate restTemplate = new RestTemplate();
-	    String result = restTemplate.getForObject(uri, String.class);
-	    
-	    JSONObject r = new JSONObject(result);	    
-	    JSONObject volumeInfo = r.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo");
-	   	    
-	    String year = volumeInfo.getString("publishedDate");
-	    if(year.length() >= 4)
-	    	bookDTO.setYear(Integer.parseInt(year.substring(0,4)));
-	    
-	    bookDTO.setDescription(volumeInfo.getString("description"));
-	    bookDTO.setImage(volumeInfo.getJSONObject("imageLinks").getString("thumbnail"));
-	  	    
-	    return bookDTO;
-	}
-
-	@Override
-	public List<BookDTO> findBook(String title, String isbn) {
-		List<BookDTO> booksDTO = new ArrayList<>();
-		List<Book> books = new ArrayList<>();
-		
-		if(title == null && isbn == null)
-			books = bookDao.findAllBook();
-		else if(title != null && isbn == null)
-			books = bookDao.findByTitle(title);
-		else if (title == null && isbn != null)
-			books = bookDao.findByIsbn(isbn);
-		else 
-			books = bookDao.findTitleIsbn(title, isbn);
-		
-		booksDTO = this.collectionOfBooks(books);
-			
-		return booksDTO;
-	}
-	
-	@Override
 	public List<BookDTO> collectionOfBooks(List<Book> books) {
 		final Iterable<Book> findAll = books;
 		final Iterator<Book> iterator = findAll.iterator();
@@ -207,18 +212,6 @@ public class BookServiceImpl implements BookService {
 			BookDTO bDTO = transform(b);
 			if(bDTO.getTitle() != null)
 				bDTO = this.searchGoogle(bDTO);
-			res.add(bDTO);
-		}
-		return res;
-	}
-
-	private List<BookDTO> findByTitleIsbn(String title, String isbn) {
-		final Iterable<Book> findAll = bookDao.findTitleIsbn(title, isbn);
-		final Iterator<Book> iterator = findAll.iterator();
-		final List<BookDTO> res = new ArrayList<>();
-		while (iterator.hasNext()) {
-			final Book b = iterator.next();
-			final BookDTO bDTO = transform(b);
 			res.add(bDTO);
 		}
 		return res;

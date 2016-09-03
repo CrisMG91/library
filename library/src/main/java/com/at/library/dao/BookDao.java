@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.model.Book;
-import com.at.library.model.Rent;
 
 @Repository
 public interface BookDao extends CrudRepository<Book, Integer> {
