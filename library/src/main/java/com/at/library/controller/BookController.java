@@ -52,7 +52,7 @@ public class BookController {
 	 * @param id
 	 */
 	@RequestMapping(value="/{id}", method =  { RequestMethod.DELETE})
-	public void disable( @PathVariable("id")Integer id){
+	public void disable( @PathVariable("id")Integer id) throws Exception{
 		log.debug(String.format("Dando de baja el libro con id %s", id));
 		bookservice.disableBook(id);
 	}

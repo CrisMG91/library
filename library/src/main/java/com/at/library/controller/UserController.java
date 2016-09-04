@@ -40,7 +40,7 @@ public class UserController {
 	 * @param id
 	 */
 	@RequestMapping(value="/{id}", method =  { RequestMethod.DELETE})
-	public void disable( @PathVariable("id")Integer id){
+	public void disable( @PathVariable("id")Integer id) throws Exception{
 		log.debug(String.format("Dando de baja el usuario con id %s", id));
 		userService.disable(id);
 	}

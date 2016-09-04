@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
+import com.at.library.exception.BookRentedException;
 import com.at.library.service.rent.RentService;
 
 @RestController
@@ -31,9 +32,12 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping( method = { RequestMethod.POST })
-	public RentDTO rentBook(@RequestBody RentDTO rentDTO) /*throws BookRentedException*/{
+	public RentDTO rentBook(@RequestBody RentDTO rentDTO) throws Exception{
 		log.debug(String.format("Alquilando un libro:", rentDTO));
-		return rentService.rentBook(rentDTO) ;
+		RentDTO resp = rentService.rentBook(rentDTO);
+		if(resp.getBook() == null)
+			throw new BookRentedException(1);
+		return resp;
 	}
 	
 	/**
@@ -42,7 +46,7 @@ public class RentController {
 	 * @return
 	 */
 	@RequestMapping(value="/{id}", method =  { RequestMethod.DELETE})
-	public void returnBook(@PathVariable("id")Integer id) {
+	public void returnBook(@PathVariable("id")Integer id) throws Exception{
 		log.debug(String.format("Devolviendo el libro:", id));
 		rentService.returnBook(id) ;
 	}

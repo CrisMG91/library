@@ -38,14 +38,16 @@ public interface UserService {
 	/**
 	 * Da de baja un usuario
 	 * @param id
+	 * @throws Exception 
 	 */
-	void disable(Integer id);
+	void disable(Integer id) throws Exception;
 
 	/**
 	 * Da de alta un usuario
 	 * @param id
+	 * @throws Exception 
 	 */
-	void enable(Integer id);
+	void enable(Integer id) throws Exception;
 
 	/**
 	 * Busca todos los usuarios
@@ -57,8 +59,9 @@ public interface UserService {
 	 * Busca un usuario segun su id
 	 * @param idUser
 	 * @return 
+	 * @throws Exception 
 	 */
-	UserDTO findOne(Integer idUser);
+	UserDTO findOne(Integer idUser) throws Exception;
 	
 	/**
 	 * Busca los usuarios llamados como name
@@ -91,18 +94,21 @@ public interface UserService {
 	/**
 	 * Cambia el estado de castigo de un usuario
 	 * @param id
+	 * @throws Exception 
 	 */
-	void changePunishment(Integer id);
+	void changePunishment(Integer id, Integer option) throws Exception;
 
 	/**
 	 * Comprueba los usuarios a sancionar y los penaliza
+	 * @throws Exception 
 	 */
-	void penalize();
+	void penalize() throws Exception;
 
 	/**
 	 * Comprueba los usuarios que han cumplido la sancion y se la quita
+	 * @throws Exception 
 	 */
-	void forgive();
+	void forgive() throws Exception;
 	
 	/**
 	 * Deuvle todos los alquileres de un usuario

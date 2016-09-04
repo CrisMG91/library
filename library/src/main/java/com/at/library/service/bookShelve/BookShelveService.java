@@ -24,8 +24,9 @@ public interface BookShelveService {
 	 * Crea una estanteria
 	 * @param BookShelveDTO
 	 * @return
+	 * @throws Exception 
 	 */
-	BookShelveDTO create(BookShelveDTO bookShelveDTO);
+	BookShelveDTO create(BookShelveDTO bookShelveDTO) throws Exception;
 	
 	/**
 	 * Transforma un BookShelve en BookShelveDTO

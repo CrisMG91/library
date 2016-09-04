@@ -17,6 +17,9 @@ public interface UserDao extends CrudRepository<User, Integer>{
 	@Query(value = "SELECT r FROM Rent AS r WHERE r.endDate = CURRENT_DATE")
 	public List<Rent> punishUser();
 	
+	@Query(value = "SELECT u FROM User AS u WHERE u.id = :idUser AND u.status = 'ACTIVE'")
+	public User findId(@Param(value = "idUser")Integer idUser);
+	
 	@Query(value = "SELECT p.user.id FROM Punishment AS p WHERE p.endDay = CURRENT_DATE")
 	public List<Integer> forgiveUser();
 	

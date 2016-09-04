@@ -12,8 +12,9 @@ public interface RentService {
 	 * Alquila un libro
 	 * @param rentDTO
 	 * @return boolean
+	 * @throws Exception 
 	 */
-	RentDTO rentBook(RentDTO rentDTO);
+	RentDTO rentBook(RentDTO rentDTO) throws Exception;
 	
 	/**
 	 * Tranforma un Rent en RentDTO 
@@ -33,8 +34,9 @@ public interface RentService {
 	 * Devuelve un libro
 	 * @param id
 	 * @return
+	 * @throws Exception 
 	 */
-	void returnBook(Integer id);
+	void returnBook(Integer id) throws Exception;
 
 	/**
 	 * Devuelve todos los alquileres

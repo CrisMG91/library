@@ -49,7 +49,7 @@ public class BookShelveController {
 	 * @return
 	 */
 	@RequestMapping( method = { RequestMethod.POST })
-	public BookShelveDTO create(@RequestBody BookShelveDTO bookShelveDTO) {
+	public BookShelveDTO create(@RequestBody BookShelveDTO bookShelveDTO) throws Exception{
 		log.debug(String.format("Creando la estanteria:", bookShelveDTO));
 		return bookShelveService.create(bookShelveDTO) ;
 	}

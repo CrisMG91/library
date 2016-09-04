@@ -51,7 +51,7 @@ public class BookShelveServiceImpl implements BookShelveService{
 	}
 
 	@Override
-	public BookShelveDTO create(BookShelveDTO bookShelveDTO) {
+	public BookShelveDTO create(BookShelveDTO bookShelveDTO) throws Exception {
 		final Iterator<Integer> iterator = bookShelveDTO.getBooks().iterator();
 		final List<Book> books = new ArrayList<>();
 		final BookShelve bookShelve = new BookShelve();

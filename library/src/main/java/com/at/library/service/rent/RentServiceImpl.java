@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.at.library.dao.RentDao;
+import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
-import com.at.library.enums.UserStatusEnum;
+import com.at.library.dto.UserDTO;
+import com.at.library.exception.BookRentedException;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 import com.at.library.model.RentPK;
@@ -34,12 +36,24 @@ public class RentServiceImpl implements RentService{
 	private DozerBeanMapper dozer;
 	
 	@Override
-	public RentDTO rentBook(RentDTO rentDTO) {	
-		final Book b = bookService.transform(bookService.findOne(rentDTO.getBook()));
-		final User u = userService.transform(userService.findOne(rentDTO.getUser()));
-		Rent rent = new Rent();
+	public RentDTO rentBook(RentDTO rentDTO) throws Exception{	
+		BookDTO bookDto = new BookDTO();
+		UserDTO userDto = new UserDTO();
+		try{
+			bookDto = bookService.findOne(rentDTO.getBook());
+			userDto = userService.findOne(rentDTO.getUser());
+		}catch(Exception e){}
 		
-		if((bookService.availableBook(b.getId()) || this.findBookRent(b.getId()) == 0) && bookService.activeBook(b.getId()) && u.getStatus().equals(UserStatusEnum.ACTIVE)){			
+		Rent rent = new Rent();
+		RentDTO resp = new RentDTO();
+		
+		if(bookDto.getId() == null || userDto.getId() == null)
+			throw new BookRentedException(3);
+		
+		final Book b = bookService.transform(bookDto);
+		final User u = userService.transform(userDto);		
+
+		if((bookService.availableBook(b.getId()) || this.findBookRent(b.getId()) == 0) && bookService.activeBook(b.getId())){			
 			RentPK pk = new RentPK();
 			
 			pk.setBook(b);
@@ -50,9 +64,10 @@ public class RentServiceImpl implements RentService{
 			rent.setEndDate(null);
 			
 			rentDao.save(rent);
+			resp = transform(rent);
 		}
 		
-		return transform(rent);
+		return resp;
 	}
 	
 	@Override
@@ -64,7 +79,7 @@ public class RentServiceImpl implements RentService{
 	public RentDTO transform(Rent rent) {
 		RentDTO renDto = new RentDTO();
 		renDto.setBook(rent.getBook().getId());
-		renDto.setUser(rent.getUser().getId());
+		renDto.setUser(rent.getUser().getId());		
 		
 		return renDto;
 	}
@@ -75,11 +90,15 @@ public class RentServiceImpl implements RentService{
 	}
 
 	@Override
-	public void returnBook(Integer id) {
+	public void returnBook(Integer id) throws Exception{
 		Rent r = rentDao.returnBook(id);
-		r.setEndDate(new java.util.Date());
-				
+		
+		if(r == null)
+			throw new BookRentedException(2);
+		
+		r.setEndDate(new java.util.Date());			
 		rentDao.save(r);
+		
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.exception.BookException;
 import com.at.library.model.Book;
 
 @Service
@@ -39,10 +40,12 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void disableBook(Integer id) {
-		Book b = bookDao.findOne(id);
-		b.setStatus(StatusEnum.DISABLE);
-					
+	public void disableBook(Integer id) throws Exception{
+		Book b = bookDao.findId(id);
+		if(b == null)
+			throw new BookException(2);
+			
+		b.setStatus(StatusEnum.DISABLE);			
 		bookDao.save(b);	
 	}
 	
@@ -122,9 +125,14 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public BookDTO findOne(Integer id) {		
-		final Book b=bookDao.findOne(id);
-		return transform(b);
+	public BookDTO findOne(Integer id) throws Exception{		
+		final Book b=bookDao.findId(id);
+		BookDTO bDTO = new BookDTO();
+		if(b == null)
+			throw new BookException(1);
+		else
+			bDTO =transform(b);
+		return bDTO;
 	}
 
 	@Override
@@ -172,17 +180,19 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void enableBook(Integer id) {
+	public void enableBook(Integer id) throws Exception{
 		Book b = bookDao.findOne(id);
-		b.setStatus(StatusEnum.ACTIVE);
-					
+		
+		if(b == null)
+			throw new BookException(2);
+		b.setStatus(StatusEnum.ACTIVE);		
 		bookDao.save(b);		
 	}
 
 	@Override
 	public boolean availableBook(Integer id) {
 		boolean resp = false;
-		if(bookDao.availableBook(id) > 0)			
+		if(bookDao.availableBook(id) == 0)			
 			resp = true;
 		
 		return resp;

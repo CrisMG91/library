@@ -19,6 +19,7 @@ import com.at.library.dao.UserDao;
 import com.at.library.dto.UserBookRentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.UserStatusEnum;
+import com.at.library.exception.UserException;
 import com.at.library.model.Punishment;
 import com.at.library.model.Rent;
 import com.at.library.model.User;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Scheduled(cron = "0 0/1 * * * ?" )
-	public void penalize(){		
+	public void penalize() throws Exception{		
 		log.debug("Comienza el proceso de sancion");
 		Iterator<Rent> punish = userDao.punishUser().iterator();
 		while (punish.hasNext()) {
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService{
 			
 			if( days > 3){
 				Integer idUser = r.getUser().getId();
-				this.changePunishment(idUser);
+				this.changePunishment(idUser, 0);
 				Punishment p = new Punishment();
 				p.setId(idUser);
 				p.setEndDay(endDate.plusDays(3*days).toDate());
@@ -69,14 +70,14 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Scheduled(cron = "0 0/1 * * * ?" )
-	public void forgive(){
+	public void forgive() throws Exception{
 		log.debug("Comienza el proceso de comprobaciones de sanciones");
 		Iterator<Integer> forgive = userDao.forgiveUser().iterator();
 		while (forgive.hasNext()) {
 			UserDTO uDTO = this.findOne(forgive.next());
 			User u = this.transform(uDTO);
 			if(u.getStatus() == UserStatusEnum.PUNISHED)
-				this.changePunishment(u.getId());
+				this.changePunishment(u.getId(), 1);
 		}
 	}
 	
@@ -103,31 +104,45 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void disable(Integer id) {
-		User u = userDao.findOne(id);
+	public void disable(Integer id) throws Exception{
+		User u = userDao.findId(id);
+		
+		if(u == null)
+			throw new UserException(3);
+			
 		u.setStatus(UserStatusEnum.DISABLE);
-					
-		userDao.save(u);			
+		userDao.save(u);					
 	}
 
 	@Override
-	public void enable(Integer id) {
+	public void enable(Integer id) throws Exception{
 		User u = userDao.findOne(id);
+		
+		if(u == null)
+			throw new UserException(5);
 		u.setStatus(UserStatusEnum.ACTIVE);
 					
 		userDao.save(u);
 	}
 
 	@Override
-	public UserDTO findOne(Integer idUser) {
-		final User u = userDao.findOne(idUser);
-		return transform(u);
+	public UserDTO findOne(Integer idUser) throws Exception{
+		final User u = userDao.findId(idUser);
+		UserDTO uDTO = new UserDTO();		
+		if(u == null)
+			throw new UserException(2);
+		
+		uDTO = transform(u);
+		return uDTO;
 	}
 
 	@Override
-	public void changePunishment(Integer id) {
+	public void changePunishment(Integer id, Integer option) throws Exception{
 		User u = userDao.findOne(id);
-		if(u.getStatus().equals(UserStatusEnum.PUNISHED))
+		
+		if(u == null)
+			throw new UserException(1);
+		if(option == 1)
 			u.setStatus(UserStatusEnum.ACTIVE);
 		else
 			u.setStatus(UserStatusEnum.PUNISHED);

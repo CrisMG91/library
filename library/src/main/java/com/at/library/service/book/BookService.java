@@ -25,8 +25,9 @@ public interface BookService {
 	/**
 	 * Da de baja un libro
 	 * @param id
+	 * @throws Exception 
 	 */
-	void disableBook(Integer id);
+	void disableBook(Integer id) throws Exception;
 	
 	/**
 	 * Lista de alquileres de un libro
@@ -77,8 +78,9 @@ public interface BookService {
 	 * Busca un libro dada su id
 	 * @param id
 	 * @return
+	 * @throws Exception 
 	 */
-	BookDTO findOne(Integer id);
+	BookDTO findOne(Integer id) throws Exception;
 	
 	/**
 	 * Elimina un libro dado su id
@@ -112,8 +114,9 @@ public interface BookService {
 	/**
 	 * Dando de alta un libro
 	 * @param id
+	 * @throws Exception 
 	 */
-	void enableBook(Integer id);
+	void enableBook(Integer id) throws Exception;
 
 	/**
 	 * Comprueba si un libro esta disponible
